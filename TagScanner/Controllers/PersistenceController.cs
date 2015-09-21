@@ -11,9 +11,10 @@ namespace TagScanner.Controllers
 	{
 		#region Lifetime Management
 
-		public PersistenceController(TagFileModel model, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
+		public PersistenceController(TagFileModel model, Control view, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
 		{
 			Model = model;
+			View = view;
 			var filter = Properties.Settings.Default.LibraryFilter;
 			OpenFileDialog = new OpenFileDialog
 			{
@@ -31,6 +32,21 @@ namespace TagScanner.Controllers
 		#endregion
 
 		#region Public Interface
+
+		public string WindowCaption
+		{
+			get
+			{
+				var text = Path.GetFileNameWithoutExtension(FilePath);
+				if (string.IsNullOrWhiteSpace(text))
+					text = "(untitled)";
+				var modified = Model.Modified;
+				if (modified)
+					text = string.Concat("* ", text);
+				text = string.Concat(text, " - ", Application.ProductName);
+				return text;
+			}
+		}
 
 		public bool Clear()
 		{
@@ -99,11 +115,37 @@ namespace TagScanner.Controllers
 
 		#region State
 
-		private string FilePath { get; set; }
 		private readonly TagFileModel Model;
+		private readonly Control View;
 		private readonly MruController MruController;
 		private readonly OpenFileDialog OpenFileDialog;
 		private readonly SaveFileDialog SaveFileDialog;
+
+		private string _filePath = string.Empty;
+		public string FilePath
+		{
+			get
+			{
+				return _filePath;
+			}
+			private set
+			{
+				if (FilePath != value)
+				{
+					_filePath = value;
+					OnFilePathChanged();
+				}
+			}
+		}
+
+		public event EventHandler FilePathChanged;
+
+		protected virtual void OnFilePathChanged()
+		{
+			var filePathChanged = FilePathChanged;
+			if (filePathChanged != null)
+				filePathChanged(this, EventArgs.Empty);
+        }
 
 		#endregion
 
@@ -129,15 +171,7 @@ namespace TagScanner.Controllers
 
 		private bool LoadFromStream(Stream stream)
 		{
-			var result = false;
-			try
-			{
-				Model.Files = (List<TagFile>) new BinaryFormatter().Deserialize(stream);
-				Model.Modified = false;
-				result = true;
-			}
-			catch { }
-			return result;
+			return UseStream(() => Model.Files = (List<TagFile>)new BinaryFormatter().Deserialize(stream));
 		}
 
 		private bool SaveToFile(string filePath)
@@ -145,15 +179,16 @@ namespace TagScanner.Controllers
 			var result = false;
 			try
 			{
-				var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-				result = SaveToStream(stream);
-				if (result)
+				using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
 				{
-					stream.Flush();
-					FilePath = filePath;
-					MruController.AddItem(filePath);
+					result = SaveToStream(stream);
+					if (result)
+					{
+						stream.Flush();
+						FilePath = filePath;
+						MruController.AddItem(filePath);
+					}
 				}
-				stream.Close();
 			}
 			catch { }
 			return result;
@@ -161,14 +196,27 @@ namespace TagScanner.Controllers
 
 		private bool SaveToStream(Stream stream)
 		{
-			var result = false;
+			return UseStream(() => new BinaryFormatter().Serialize(stream, Model.Files));
+		}
+
+		private bool UseStream(Action action)
+		{
+			var result = true;
+			var cursorController = new CursorController(View);
+			cursorController.BeginWait();
 			try
 			{
-				new BinaryFormatter().Serialize(stream, Model.Files);
+				action();
 				Model.Modified = false;
-				result = true;
 			}
-			catch { }
+			catch
+			{
+				result = false;
+			}
+			finally
+			{
+				cursorController.EndWait();
+			}
 			return result;
 		}
 

@@ -50,9 +50,12 @@
     <Reference Include="policy.2.0.taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,15 +67,25 @@
     <Reference Include="taglib-sharp">
       <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CursorController.cs" />
+    <Compile Include="Controllers\GridViewController.cs" />
+    <Compile Include="Controllers\GridViewControllerWPF.cs" />
+    <Compile Include="Controllers\IGridViewController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\PersistenceController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Model\TagFileReader.cs" />
-    <Compile Include="Controllers\GridViewController.cs" />
+    <Compile Include="Controllers\GridViewControllerWF.cs" />
     <Compile Include="Model\ITagFile.cs" />
     <Compile Include="StringUtilities.cs" />
+    <Compile Include="Views\GridContainer.xaml.cs">
+      <DependentUpon>GridContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +104,7 @@
     <Compile Include="Model\TagFileExtensions.cs" />
     <Compile Include="Model\TagFileModel.cs" />
     <Compile Include="Model\TagFileSelection.cs" />
+    <Compile Include="Views\ViewTechnology.cs" />
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -149,6 +163,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\GridContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

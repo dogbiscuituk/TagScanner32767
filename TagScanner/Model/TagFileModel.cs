@@ -23,12 +23,48 @@ namespace TagScanner.Model
 			}
 		}
 
-		public bool Modified { get; set; }
+		private bool _modified;
+		public bool Modified
+		{
+			get
+			{
+				return _modified;
+			}
+			set
+			{
+				if (Modified != value)
+				{
+					_modified = value;
+					OnModifiedChanged();
+				}
+			}
+		}
+
+		public event EventHandler ModifiedChanged;
+
+		protected virtual void OnModifiedChanged()
+		{
+			var modifiedChanged = ModifiedChanged;
+			if (modifiedChanged != null)
+				modifiedChanged(this, EventArgs.Empty);
+        }
 
 		public Order[] Orders
 		{
 			get { return _orders; }
 			set { _orders = value; Sort(); }
+		}
+
+		public void ToggleOrder(string propertyName)
+		{
+			var newOrder = new Order(propertyName);
+			if (Orders.Length == 1)
+			{
+				var oldOrder = Orders[0];
+				if (oldOrder.PropertyName == propertyName)
+					newOrder.Descending = !oldOrder.Descending;
+			}
+			Orders = new[] { newOrder };
 		}
 
 		public void Clear()

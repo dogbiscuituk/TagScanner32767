@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using TagScanner.Controllers;
 using TagScanner.Model;
@@ -13,12 +14,74 @@ namespace TagScanner.Views
 		{
 			InitializeComponent();
 			Model = new TagFileModel();
-			GridViewController = new GridViewController(Model, DataGrid);
-			GridViewController.SelectionChanged += GridViewController_SelectionChanged;
+			Model.ModifiedChanged += Model_ModifiedChanged;
+			ViewTechnology = ViewTechnology.WinForms;
 			PictureController = new PictureController(PictureBox, PropertyGrid);
 			StatusController = new StatusController(Model, StatusBar);
-			PersistenceController = new PersistenceController(Model, FileReopen, FileReopenItem_Click);
+			PersistenceController = new PersistenceController(Model, this, FileReopen, FileReopenItem_Click);
+			PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
 			MediaController = new MediaController(Model, StatusController, AddRecentFolders, AddRecentFoldersItem_Click);
+			Model_ModifiedChanged(Model, EventArgs.Empty);
+        }
+
+		#endregion
+
+		#region View Technology
+
+		private ViewTechnology _viewTechnology;
+        private ViewTechnology ViewTechnology
+		{
+			get
+			{
+				return _viewTechnology;
+			}
+			set
+			{
+				if (ViewTechnology != value)
+				{
+					_viewTechnology = value;
+                    DataGrid.Visible = false;
+					GridContainerHost.Visible = false;
+					Control control = null;
+					switch (ViewTechnology)
+					{
+						case ViewTechnology.WinForms:
+							GridViewController = new GridViewControllerWF(Model, DataGrid);
+							control = DataGrid;
+							break;
+						case ViewTechnology.WPF:
+							GridViewController = new GridViewControllerWPF(Model, GridContainerHost);
+							control = GridContainerHost;
+							break;
+					}
+					if (control != null)
+					{
+						control.Dock = DockStyle.Fill;
+						control.Visible = true;
+					}
+				}
+			}
+		}
+
+		private IGridViewController _gridViewController;
+		private IGridViewController GridViewController
+		{
+			get
+			{
+				return _gridViewController;
+			}
+			set
+			{
+				if (GridViewController != null)
+				{
+					GridViewController.SelectionChanged -= GridViewController_SelectionChanged;
+				}
+				_gridViewController = value;
+				if (GridViewController != null)
+				{
+					GridViewController.SelectionChanged += GridViewController_SelectionChanged;
+				}
+			}
 		}
 
 		#endregion
@@ -26,7 +89,6 @@ namespace TagScanner.Views
 		#region Fields
 
 		private readonly TagFileModel Model;
-		private readonly GridViewController GridViewController;
         private readonly PictureController PictureController;
 		private readonly StatusController StatusController;
 		private readonly PersistenceController PersistenceController;
@@ -96,6 +158,13 @@ namespace TagScanner.Views
 			MediaController.Reopen((ToolStripItem)sender);
 		}
 
+		private void HelpAbout_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show(
+				string.Concat("Version ", Application.ProductVersion),
+				string.Concat("About ", Application.ProductName));
+		}
+
 		#endregion
 
 		#region Event Handlers
@@ -105,11 +174,32 @@ namespace TagScanner.Views
 			e.Cancel = !PersistenceController.SaveIfModified();
 		}
 
+		private void Model_ModifiedChanged(object sender, EventArgs e)
+		{
+			Text = PersistenceController.WindowCaption;
+			ModifiedLabel.Visible = Model.Modified;
+		}
+
 		private void GridViewController_SelectionChanged(object sender, EventArgs e)
 		{
 			PropertyGrid.SelectedObject = GridViewController.Selection;
 		}
 
+		private void PersistenceController_FilePathChanged(object sender, EventArgs e)
+		{
+			Text = PersistenceController.WindowCaption;
+		}
+
 		#endregion
+
+		private void winFormsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewTechnology = ViewTechnology.WinForms;
+		}
+
+		private void wPFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewTechnology = ViewTechnology.WPF;
+		}
 	}
 }

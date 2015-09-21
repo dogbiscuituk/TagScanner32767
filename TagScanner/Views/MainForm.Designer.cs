@@ -34,6 +34,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.GridContainerHost = new System.Windows.Forms.Integration.ElementHost();
 			this.DataGrid = new System.Windows.Forms.DataGridView();
 			this.albumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.albumSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -147,6 +148,11 @@
 			this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
+			this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+			this.technologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.winFormsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.wPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -159,6 +165,7 @@
 			this.splitContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
 			this.MainMenu.SuspendLayout();
+			this.StatusBar.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -169,6 +176,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.GridContainerHost);
 			this.splitContainer1.Panel1.Controls.Add(this.DataGrid);
 			// 
 			// splitContainer1.Panel2
@@ -177,6 +185,15 @@
 			this.splitContainer1.Size = new System.Drawing.Size(784, 516);
 			this.splitContainer1.SplitterDistance = 547;
 			this.splitContainer1.TabIndex = 7;
+			// 
+			// GridContainerHost
+			// 
+			this.GridContainerHost.Location = new System.Drawing.Point(23, 290);
+			this.GridContainerHost.Name = "GridContainerHost";
+			this.GridContainerHost.Size = new System.Drawing.Size(314, 188);
+			this.GridContainerHost.TabIndex = 2;
+			this.GridContainerHost.Text = "GridContainerHost";
+			this.GridContainerHost.Child = null;
 			// 
 			// DataGrid
 			// 
@@ -272,16 +289,15 @@
             this.videoWidthDataGridViewTextBoxColumn,
             this.yearDataGridViewTextBoxColumn});
 			this.DataGrid.DataSource = this.tagFileBindingSource;
-			this.DataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.DataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-			this.DataGrid.Location = new System.Drawing.Point(0, 0);
+			this.DataGrid.Location = new System.Drawing.Point(23, 25);
 			this.DataGrid.Name = "DataGrid";
 			this.DataGrid.ReadOnly = true;
 			this.DataGrid.RowHeadersVisible = false;
 			this.DataGrid.RowTemplate.Height = 18;
 			this.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.DataGrid.ShowEditingIcon = false;
-			this.DataGrid.Size = new System.Drawing.Size(547, 516);
+			this.DataGrid.Size = new System.Drawing.Size(482, 211);
 			this.DataGrid.TabIndex = 1;
 			// 
 			// albumDataGridViewTextBoxColumn
@@ -954,52 +970,55 @@
 			// FileNew
 			// 
 			this.FileNew.Name = "FileNew";
-			this.FileNew.Size = new System.Drawing.Size(152, 22);
+			this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+			this.FileNew.Size = new System.Drawing.Size(155, 22);
 			this.FileNew.Text = "&New";
 			this.FileNew.Click += new System.EventHandler(this.FileNew_Click);
 			// 
 			// FileOpen
 			// 
 			this.FileOpen.Name = "FileOpen";
-			this.FileOpen.Size = new System.Drawing.Size(152, 22);
+			this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+			this.FileOpen.Size = new System.Drawing.Size(155, 22);
 			this.FileOpen.Text = "&Open...";
 			this.FileOpen.Click += new System.EventHandler(this.FileOpen_Click);
 			// 
 			// FileSave
 			// 
 			this.FileSave.Name = "FileSave";
-			this.FileSave.Size = new System.Drawing.Size(152, 22);
+			this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.FileSave.Size = new System.Drawing.Size(155, 22);
 			this.FileSave.Text = "&Save";
 			this.FileSave.Click += new System.EventHandler(this.FileSave_Click);
 			// 
 			// FileSaveAs
 			// 
 			this.FileSaveAs.Name = "FileSaveAs";
-			this.FileSaveAs.Size = new System.Drawing.Size(152, 22);
+			this.FileSaveAs.Size = new System.Drawing.Size(155, 22);
 			this.FileSaveAs.Text = "Save &As...";
 			this.FileSaveAs.Click += new System.EventHandler(this.FileSaveAs_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 6);
 			// 
 			// FileReopen
 			// 
 			this.FileReopen.Name = "FileReopen";
-			this.FileReopen.Size = new System.Drawing.Size(152, 22);
+			this.FileReopen.Size = new System.Drawing.Size(155, 22);
 			this.FileReopen.Text = "&Reopen";
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 6);
 			// 
 			// FileExit
 			// 
 			this.FileExit.Name = "FileExit";
 			this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-			this.FileExit.Size = new System.Drawing.Size(152, 22);
+			this.FileExit.Size = new System.Drawing.Size(155, 22);
 			this.FileExit.Text = "E&xit";
 			this.FileExit.Click += new System.EventHandler(this.FileExit_Click);
 			// 
@@ -1041,26 +1060,26 @@
 			// AddMedia
 			// 
 			this.AddMedia.Name = "AddMedia";
-			this.AddMedia.Size = new System.Drawing.Size(152, 22);
+			this.AddMedia.Size = new System.Drawing.Size(151, 22);
 			this.AddMedia.Text = "&Media...";
 			this.AddMedia.Click += new System.EventHandler(this.AddMedia_Click);
 			// 
 			// AddFolder
 			// 
 			this.AddFolder.Name = "AddFolder";
-			this.AddFolder.Size = new System.Drawing.Size(152, 22);
+			this.AddFolder.Size = new System.Drawing.Size(151, 22);
 			this.AddFolder.Text = "&Folder...";
 			this.AddFolder.Click += new System.EventHandler(this.AddFolder_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(148, 6);
 			// 
 			// AddRecentFolders
 			// 
 			this.AddRecentFolders.Name = "AddRecentFolders";
-			this.AddRecentFolders.Size = new System.Drawing.Size(152, 22);
+			this.AddRecentFolders.Size = new System.Drawing.Size(151, 22);
 			this.AddRecentFolders.Text = "&Recent Folders";
 			// 
 			// ViewMenu
@@ -1069,7 +1088,9 @@
             this.ViewPreset,
             this.ViewLevel,
             this.toolStripMenuItem2,
-            this.ViewOptions});
+            this.ViewOptions,
+            this.toolStripMenuItem6,
+            this.technologyToolStripMenuItem});
 			this.ViewMenu.Name = "ViewMenu";
 			this.ViewMenu.Size = new System.Drawing.Size(44, 20);
 			this.ViewMenu.Text = "&View";
@@ -1084,7 +1105,7 @@
             this.ViewByAlbumTitle,
             this.ViewBySongTitle});
 			this.ViewPreset.Name = "ViewPreset";
-			this.ViewPreset.Size = new System.Drawing.Size(125, 22);
+			this.ViewPreset.Size = new System.Drawing.Size(152, 22);
 			this.ViewPreset.Text = "&Preset";
 			// 
 			// ViewByArtist
@@ -1125,18 +1146,18 @@
 			// ViewLevel
 			// 
 			this.ViewLevel.Name = "ViewLevel";
-			this.ViewLevel.Size = new System.Drawing.Size(125, 22);
+			this.ViewLevel.Size = new System.Drawing.Size(152, 22);
 			this.ViewLevel.Text = "&Level";
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(122, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// ViewOptions
 			// 
 			this.ViewOptions.Name = "ViewOptions";
-			this.ViewOptions.Size = new System.Drawing.Size(125, 22);
+			this.ViewOptions.Size = new System.Drawing.Size(152, 22);
 			this.ViewOptions.Text = "&Options...";
 			// 
 			// HelpMenu
@@ -1152,6 +1173,7 @@
 			this.HelpAbout.Name = "HelpAbout";
 			this.HelpAbout.Size = new System.Drawing.Size(107, 22);
 			this.HelpAbout.Text = "&About";
+			this.HelpAbout.Click += new System.EventHandler(this.HelpAbout_Click);
 			// 
 			// AddFolderDialog
 			// 
@@ -1164,11 +1186,48 @@
 			// 
 			// StatusBar
 			// 
+			this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ModifiedLabel});
 			this.StatusBar.Location = new System.Drawing.Point(0, 540);
 			this.StatusBar.Name = "StatusBar";
 			this.StatusBar.Size = new System.Drawing.Size(784, 22);
 			this.StatusBar.TabIndex = 9;
 			this.StatusBar.Text = "Status";
+			// 
+			// ModifiedLabel
+			// 
+			this.ModifiedLabel.Name = "ModifiedLabel";
+			this.ModifiedLabel.Size = new System.Drawing.Size(55, 17);
+			this.ModifiedLabel.Text = "Modified";
+			this.ModifiedLabel.Visible = false;
+			// 
+			// toolStripMenuItem6
+			// 
+			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+			this.toolStripMenuItem6.Size = new System.Drawing.Size(149, 6);
+			// 
+			// technologyToolStripMenuItem
+			// 
+			this.technologyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.winFormsToolStripMenuItem,
+            this.wPFToolStripMenuItem});
+			this.technologyToolStripMenuItem.Name = "technologyToolStripMenuItem";
+			this.technologyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.technologyToolStripMenuItem.Text = "&Technology";
+			// 
+			// winFormsToolStripMenuItem
+			// 
+			this.winFormsToolStripMenuItem.Name = "winFormsToolStripMenuItem";
+			this.winFormsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.winFormsToolStripMenuItem.Text = "&WinForms";
+			this.winFormsToolStripMenuItem.Click += new System.EventHandler(this.winFormsToolStripMenuItem_Click);
+			// 
+			// wPFToolStripMenuItem
+			// 
+			this.wPFToolStripMenuItem.Name = "wPFToolStripMenuItem";
+			this.wPFToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.wPFToolStripMenuItem.Text = "W&PF";
+			this.wPFToolStripMenuItem.Click += new System.EventHandler(this.wPFToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -1194,6 +1253,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
 			this.MainMenu.ResumeLayout(false);
 			this.MainMenu.PerformLayout();
+			this.StatusBar.ResumeLayout(false);
+			this.StatusBar.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1315,6 +1376,12 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem FileReopen;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+		private System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
+		private System.Windows.Forms.Integration.ElementHost GridContainerHost;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+		private System.Windows.Forms.ToolStripMenuItem technologyToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem winFormsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem wPFToolStripMenuItem;
 	}
 }
 

@@ -91,7 +91,7 @@ namespace TagScanner.Model
 
 		public static string GetIndex(this string s)
 		{
-			return (s.ToUpper() + " ").Substring(0, 1);
+			return string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 		}
 
 		#endregion
