@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
-using TagScanner.Model;
+using TagScanner.Models;
 
 namespace TagScanner.Controllers
 {
 	public class StatusController
 	{
-		public StatusController(TagFileModel model, StatusStrip statusStrip)
+		public StatusController(Model model, StatusStrip statusStrip)
 		{
 			Model = model;
 			StatusBar = statusStrip.Items;
 		}
 
-		private TagFileModel Model;
+		private Model Model;
         private ToolStripItemCollection StatusBar;
 
 		public IProgress<ProgressEventArgs> NewProgress()

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using TagScanner.Model;
+using TagScanner.Models;
 
 namespace TagScanner.Controllers
 {
@@ -115,7 +115,7 @@ namespace TagScanner.Controllers
             }
             // If no Picture is selected in the PropertyGrid,
             // then display the first Picture in the selection, if any.
-            var tagFile = PropertyGrid.SelectedObject as TagFileSelection;
+            var tagFile = PropertyGrid.SelectedObject as Selection;
             var result = tagFile != null && tagFile.Pictures.Any();
             Picture = result ? tagFile.Pictures[0] : null;
         }
