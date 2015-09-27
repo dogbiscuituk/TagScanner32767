@@ -72,10 +72,13 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ColumnChooserController.cs" />
     <Compile Include="Controllers\CursorController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\GridControllerWPF.cs" />
+    <Compile Include="Controllers\LogicalConverter.cs" />
     <Compile Include="Controllers\MediaController.cs" />
+    <Compile Include="Controllers\OptionsDialogController.cs" />
     <Compile Include="Controllers\PersistenceController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\Logical.cs" />
@@ -83,8 +86,14 @@
     <Compile Include="Controllers\GridControllerWF.cs" />
     <Compile Include="Models\ITrack.cs" />
     <Compile Include="StringUtilities.cs" />
-    <Compile Include="Views\GridContainer.xaml.cs">
-      <DependentUpon>GridContainer.xaml</DependentUpon>
+    <Compile Include="Views\ColumnChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ColumnChooser.Designer.cs">
+      <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridElement.xaml.cs">
+      <DependentUpon>GridElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GridForm.cs">
       <SubType>Form</SubType>
@@ -105,6 +114,15 @@
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />
     <Compile Include="Views\GridType.cs" />
+    <Compile Include="Views\OptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\OptionsDialog.Designer.cs">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\ColumnChooser.resx">
+      <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\GridForm.resx">
       <DependentUpon>GridForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,7 +134,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -164,7 +186,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\GridContainer.xaml">
+    <Page Include="Views\GridElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

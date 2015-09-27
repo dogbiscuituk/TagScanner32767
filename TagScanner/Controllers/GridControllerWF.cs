@@ -12,14 +12,29 @@ namespace TagScanner.Controllers
 	{
 		#region Lifetime Management
 
-		public GridControllerWF(Model model, DataGridView view) : base(model)
-		{
-			View = view;
-		}
+		public GridControllerWF(Model model, DataGridView view) : base(model, view) { }
 
 		#endregion
 
-		#region Model
+		#region View
+
+		private new DataGridView View { get { return (DataGridView)base.View; } }
+
+		protected override void DisconnectView()
+		{
+			View.CellFormatting -= View_CellFormatting;
+			View.ColumnHeaderMouseClick -= View_ColumnHeaderMouseClick;
+			View.SelectionChanged -= View_SelectionChanged;
+		}
+
+		protected override void ReconnectView()
+		{
+			View.Columns.Clear();
+			View.Columns.AddRange(GetColumns().ToArray());
+			View.CellFormatting += View_CellFormatting;
+			View.ColumnHeaderMouseClick += View_ColumnHeaderMouseClick;
+			View.SelectionChanged += View_SelectionChanged;
+		}
 
 		protected override void RefreshDataSource()
 		{
@@ -29,37 +44,6 @@ namespace TagScanner.Controllers
 			{
 				var tracks = Model.Tracks;
 				View.DataSource = tracks.Any() ? tracks : null;
-			}
-		}
-
-		#endregion
-
-		#region View
-
-		private DataGridView _view;
-		private DataGridView View
-		{
-			get
-			{
-				return _view;
-			}
-			set
-			{
-				if (View != null)
-				{
-					View.CellFormatting -= View_CellFormatting;
-					View.ColumnHeaderMouseClick -= View_ColumnHeaderMouseClick;
-					View.SelectionChanged -= View_SelectionChanged;
-				}
-				_view = value;
-				if (View != null)
-				{
-					View.Columns.Clear();
-					View.Columns.AddRange(GetColumns().ToArray());
-					View.CellFormatting += View_CellFormatting;
-					View.ColumnHeaderMouseClick += View_ColumnHeaderMouseClick;
-					View.SelectionChanged += View_SelectionChanged;
-				}
 			}
 		}
 
@@ -76,45 +60,22 @@ namespace TagScanner.Controllers
 
 		private DataGridViewColumn GetColumn(PropertyInfo propertyInfo)
 		{
-			var column = GetColumn(propertyInfo.PropertyType.Name);
+			var column = (DataGridViewColumn)GetColumn(propertyInfo.PropertyType.Name);
 			if (column != null)
 			{
-				column.DataPropertyName = column.Name = column.HeaderText = column.ToolTipText = propertyInfo.Name;
+				column.DataPropertyName = column.HeaderText = column.Name = column.ToolTipText = propertyInfo.Name;
 				column.DisplayIndex = _displayIndex++;
 				column.Width = 100;
-
-				column.Visible = true;
 			}
 			return column;
 		}
 
-		private DataGridViewColumn GetColumn(string propertyTypeName)
-		{
-			switch (propertyTypeName)
-			{
-				case "String":
-				case "TagTypes":
-					return GetTextBoxColumn(StringAlignment.Near);
-				case "Int32":
-				case "Int64":
-				case "TimeSpan":
-					return GetTextBoxColumn(StringAlignment.Far);
-				case "Logical":
-					return GetCheckBoxColumn();
-				case "Picture[]":
-				case "String[]":
-					return null;
-				default:
-					return null;
-			}
-		}
-
-		private DataGridViewColumn GetCheckBoxColumn()
+		protected override object GetCheckBoxColumn()
 		{
 			return new DataGridViewCheckBoxColumn();
 		}
 
-		private DataGridViewColumn GetTextBoxColumn(StringAlignment alignment)
+		protected override object GetTextBoxColumn(StringAlignment alignment)
 		{
 			var column = new DataGridViewTextBoxColumn();
 			column.DefaultCellStyle.Alignment = GetContentAlignment(alignment);
@@ -135,6 +96,28 @@ namespace TagScanner.Controllers
 			return DataGridViewContentAlignment.NotSet;
 		}
 
+		protected override void InitVisibleColumns()
+		{
+			var columns = View.Columns.Cast<DataGridViewColumn>();
+            foreach (var column in columns)
+				column.Visible = false;
+			var displayIndex = 0;
+			foreach (var columnName in VisibleColumnNames)
+			{
+				var column = columns.Single(c => c.Name == columnName);
+				column.DisplayIndex = displayIndex++;
+				column.Visible = true;
+			}
+		}
+
+		#endregion
+
+		#region Groups
+
+		protected override void InitGroups()
+		{
+		}
+
 		#endregion
 
 		#region Formatting
@@ -144,10 +127,12 @@ namespace TagScanner.Controllers
 			e.Value = FormatCell(e);
 		}
 
-		private string FormatCell(DataGridViewCellFormattingEventArgs e)
+		private object FormatCell(DataGridViewCellFormattingEventArgs e)
 		{
+			var result = e.Value;
 			var column = View.Columns[e.ColumnIndex];
-			return e.Value.Format(column.DataPropertyName, column.ValueType, false);
+			result = result.Format(column.DataPropertyName, column.ValueType, false);
+			return result;
 		}
 
 		#endregion
@@ -174,17 +159,17 @@ namespace TagScanner.Controllers
 					.ToList());
 		}
 
-		private void View_SelectionChanged(object sender, EventArgs e)
-		{
-			OnSelectionChanged();
-		}
-
 		private void SetSelection(Func<DataGridViewRow, bool> select)
 		{
 			BeginUpdateSelection();
 		    foreach (DataGridViewRow row in View.Rows)
 			    row.Selected = select(row);
 			EndUpdateSelection();
+		}
+
+		private void View_SelectionChanged(object sender, EventArgs e)
+		{
+			OnSelectionChanged();
 		}
 
 		#endregion

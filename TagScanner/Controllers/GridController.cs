@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using TagScanner.Models;
 
@@ -9,9 +12,10 @@ namespace TagScanner.Controllers
 	{
 		#region Lifetime Management
 
-		public GridController(Model model)
+		public GridController(Model model, Component view)
 		{
 			Model = model;
+			View = view;
 		}
 
 		#endregion
@@ -41,8 +45,44 @@ namespace TagScanner.Controllers
 
 		private void Model_TracksChanged(object sender, EventArgs e)
 		{
-			RefreshDataSource();
+			InvokeRefreshDataSource();
 		}
+
+		#endregion
+
+		#region View
+
+		private Component _view;
+		protected Component View
+		{
+			get
+			{
+				return _view;
+			}
+			set
+			{
+				if (View != null)
+					DisconnectView();
+				_view = value;
+				if (View != null)
+				{
+					ReconnectView();
+					InvokeRefreshDataSource();
+				}
+			}
+		}
+
+		protected abstract void DisconnectView();
+		protected abstract void ReconnectView();
+
+		private void InvokeRefreshDataSource()
+		{
+			var syncInvoke = (ISynchronizeInvoke)View;
+			if (syncInvoke.InvokeRequired)
+				syncInvoke.Invoke(new Action(RefreshDataSource), null);
+			else
+				RefreshDataSource();
+        }
 
 		protected abstract void RefreshDataSource();
 
@@ -52,14 +92,69 @@ namespace TagScanner.Controllers
 
 		protected static readonly PropertyInfo[] PropertyInfos = typeof(ITrack).GetProperties();
 
-		private IEnumerable<string> _visibleColumnNames;
-		public IEnumerable<string> VisibleColumnNames
+		protected object GetColumn(string propertyTypeName)
 		{
-			get { return _visibleColumnNames; }
-			set
+			switch (propertyTypeName)
 			{
+				case "String":
+				case "TagTypes":
+					return GetTextBoxColumn(StringAlignment.Near);
+				case "Int32":
+				case "Int64":
+				case "TimeSpan":
+					return GetTextBoxColumn(StringAlignment.Far);
+				case "Logical":
+					return GetCheckBoxColumn();
+			}
+			return null;
+		}
+
+		protected abstract object GetCheckBoxColumn();
+		protected abstract object GetTextBoxColumn(StringAlignment alignment);
+
+		public IEnumerable<string> SortableColumnNames
+		{
+			get
+			{
+				return PropertyInfos.Select(p => p.Name);
 			}
 		}
+
+		private IEnumerable<string> _visibleColumnNames = new[] { "FilePath" };
+		public IEnumerable<string> VisibleColumnNames
+		{
+			get
+			{
+				return _visibleColumnNames;
+			}
+			set
+			{
+				_visibleColumnNames = value;
+				InitVisibleColumns();
+            }
+		}
+
+		protected abstract void InitVisibleColumns();
+
+		#endregion
+
+		#region Groups
+
+		private string[] _groups = new string[0];
+		public string[] Groups
+		{
+			get
+			{
+				return _groups;
+			}
+			set
+			{
+				_groups = value;
+				InitGroups();
+			}
+		}
+
+		protected abstract void InitGroups();
 
 		#endregion
 
@@ -105,6 +200,92 @@ namespace TagScanner.Controllers
 				if (selectionChanged != null)
 					selectionChanged(this, EventArgs.Empty);
 			}
+		}
+
+		#endregion
+
+		#region Presets
+
+		public void ViewByAlbumTitle()
+		{
+			VisibleColumnNames = new[]
+			{
+				"JoinedPerformers",
+				"DiscTrack",
+				"Title",
+				"Duration",
+				"FileSize"
+			};
+			Groups = new[]
+			{
+				"Album"
+			};
+		}
+
+		public void ViewByArtist()
+		{
+			VisibleColumnNames = new[]
+			{
+				"DiscTrack",
+				"Title",
+				"Duration",
+				"FileSize"
+			};
+			Groups = new[]
+			{
+				"JoinedPerformers",
+				"Album"
+			};
+		}
+
+		public void ViewByGenre()
+		{
+			VisibleColumnNames = new[]
+			{
+				"DiscTrack",
+				"Title",
+				"Duration",
+				"FileSize"
+			};
+			Groups = new[]
+			{
+				"IsClassical",
+				"JoinedGenres",
+				"JoinedPerformers",
+				"Album"
+			};
+		}
+
+		public void ViewBySongTitle()
+		{
+			VisibleColumnNames = new[]
+			{
+				"Title",
+				"JoinedPerformers",
+				"DiscTrack",
+				"Duration",
+				"FileSize"
+			};
+			Groups = new string[0];
+		}
+
+		public void ViewByYear()
+		{
+			VisibleColumnNames = new[]
+			{
+				"DiscTrack",
+				"Title",
+				"Duration",
+				"FileSize"
+			};
+			Groups = new[]
+			{
+				"Century",
+				"Decade",
+				"Year",
+				"JoinedPerformers",
+				"Album"
+			};
 		}
 
 		#endregion

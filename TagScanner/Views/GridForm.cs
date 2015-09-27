@@ -21,6 +21,7 @@ namespace TagScanner.Views
 			PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
 			MediaController = new MediaController(Model, statusController, AddRecentFolders, AddRecentFoldersItem_Click);
 			Model_ModifiedChanged(Model, EventArgs.Empty);
+			GridViewController.ViewByArtist();
 		}
 
 		#endregion
@@ -40,7 +41,7 @@ namespace TagScanner.Views
 				{
 					_viewTechnology = value;
                     DataGrid.Visible = false;
-					GridContainerHost.Visible = false;
+					GridElementHost.Visible = false;
 					GridViewController = null;
 					Control control = null;
 					switch (ViewTechnology)
@@ -50,8 +51,8 @@ namespace TagScanner.Views
 							control = DataGrid;
 							break;
 						case GridType.WPF:
-							GridViewController = new GridControllerWPF(Model, GridContainerHost);
-							control = GridContainerHost;
+							GridViewController = new GridControllerWPF(Model, GridElementHost);
+							control = GridElementHost;
 							break;
 					}
 					if (control != null)
@@ -156,11 +157,75 @@ namespace TagScanner.Views
 			MediaController.Reopen((ToolStripItem)sender);
 		}
 
+		private void winFormsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewTechnology = GridType.WinForms;
+		}
+
+		private void wPFToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ViewTechnology = GridType.WPF;
+		}
+
+		private void ViewByArtist_Click(object sender, EventArgs e)
+		{
+			GridViewController.ViewByArtist();
+		}
+
+		private void ViewByGenre_Click(object sender, EventArgs e)
+		{
+			GridViewController.ViewByGenre();
+		}
+
+		private void ViewByYear_Click(object sender, EventArgs e)
+		{
+			GridViewController.ViewByYear();
+		}
+
+		private void ViewByAlbumTitle_Click(object sender, EventArgs e)
+		{
+			GridViewController.ViewByAlbumTitle();
+		}
+
+		private void ViewBySongTitle_Click(object sender, EventArgs e)
+		{
+			GridViewController.ViewBySongTitle();
+		}
+
+		private void ViewOptions_Click(object sender, EventArgs e)
+		{
+			EditQuery(5);
+		}
+
 		private void HelpAbout_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show(
 				string.Concat("Version ", Application.ProductVersion),
 				string.Concat("About ", Application.ProductName));
+		}
+
+		#endregion
+
+		#region Popup Menu
+
+		private void PopupVisibleColumns_Click(object sender, EventArgs e)
+		{
+			EditQuery(0);
+		}
+
+		private void PopupGroups_Click(object sender, EventArgs e)
+		{
+			EditQuery(2);
+		}
+
+		private void PopupSort_Click(object sender, EventArgs e)
+		{
+			EditQuery(4);
+		}
+
+		private void PopupOptions_Click(object sender, EventArgs e)
+		{
+			EditQuery(5);
 		}
 
 		#endregion
@@ -190,14 +255,20 @@ namespace TagScanner.Views
 
 		#endregion
 
-		private void winFormsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void EditQuery(int page)
 		{
-			ViewTechnology = GridType.WinForms;
+			OptionsDialogController.Execute(this, page);
 		}
 
-		private void wPFToolStripMenuItem_Click(object sender, EventArgs e)
+		private OptionsDialogController _optionsDialogController;
+		private OptionsDialogController OptionsDialogController
 		{
-			ViewTechnology = GridType.WPF;
+			get
+			{
+				return
+					_optionsDialogController
+					?? (_optionsDialogController = new OptionsDialogController(GridViewController));
+			}
 		}
 	}
 }

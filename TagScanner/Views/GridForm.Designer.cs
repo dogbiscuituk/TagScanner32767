@@ -31,7 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.GridContainerHost = new System.Windows.Forms.Integration.ElementHost();
+			this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
 			this.DataGrid = new System.Windows.Forms.DataGridView();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.PictureBox = new System.Windows.Forms.PictureBox();
@@ -75,6 +75,11 @@
 			this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
 			this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.PopupVisibleColumns = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupGroups = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupSort = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.tagFileBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -88,6 +93,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
 			this.MainMenu.SuspendLayout();
 			this.StatusBar.SuspendLayout();
+			this.PopupMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.tagFileBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -99,7 +105,7 @@
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.GridContainerHost);
+			this.splitContainer1.Panel1.Controls.Add(this.GridElementHost);
 			this.splitContainer1.Panel1.Controls.Add(this.DataGrid);
 			// 
 			// splitContainer1.Panel2
@@ -109,14 +115,15 @@
 			this.splitContainer1.SplitterDistance = 547;
 			this.splitContainer1.TabIndex = 7;
 			// 
-			// GridContainerHost
+			// GridElementHost
 			// 
-			this.GridContainerHost.Location = new System.Drawing.Point(23, 261);
-			this.GridContainerHost.Name = "GridContainerHost";
-			this.GridContainerHost.Size = new System.Drawing.Size(482, 188);
-			this.GridContainerHost.TabIndex = 2;
-			this.GridContainerHost.Text = "GridContainerHost";
-			this.GridContainerHost.Child = null;
+			this.GridElementHost.ContextMenuStrip = this.PopupMenu;
+			this.GridElementHost.Location = new System.Drawing.Point(23, 261);
+			this.GridElementHost.Name = "GridElementHost";
+			this.GridElementHost.Size = new System.Drawing.Size(482, 188);
+			this.GridElementHost.TabIndex = 2;
+			this.GridElementHost.Text = "GridContainerHost";
+			this.GridElementHost.Child = null;
 			// 
 			// DataGrid
 			// 
@@ -134,6 +141,7 @@
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.DataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+			this.DataGrid.ContextMenuStrip = this.PopupMenu;
 			this.DataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
 			this.DataGrid.Location = new System.Drawing.Point(23, 25);
 			this.DataGrid.Name = "DataGrid";
@@ -357,18 +365,21 @@
 			this.ViewByArtist.Name = "ViewByArtist";
 			this.ViewByArtist.Size = new System.Drawing.Size(152, 22);
 			this.ViewByArtist.Text = "by &Artist";
+			this.ViewByArtist.Click += new System.EventHandler(this.ViewByArtist_Click);
 			// 
 			// ViewByGenre
 			// 
 			this.ViewByGenre.Name = "ViewByGenre";
 			this.ViewByGenre.Size = new System.Drawing.Size(152, 22);
 			this.ViewByGenre.Text = "by &Genre";
+			this.ViewByGenre.Click += new System.EventHandler(this.ViewByGenre_Click);
 			// 
 			// ViewByYear
 			// 
 			this.ViewByYear.Name = "ViewByYear";
 			this.ViewByYear.Size = new System.Drawing.Size(152, 22);
 			this.ViewByYear.Text = "by &Year";
+			this.ViewByYear.Click += new System.EventHandler(this.ViewByYear_Click);
 			// 
 			// toolStripMenuItem4
 			// 
@@ -380,12 +391,14 @@
 			this.ViewByAlbumTitle.Name = "ViewByAlbumTitle";
 			this.ViewByAlbumTitle.Size = new System.Drawing.Size(152, 22);
 			this.ViewByAlbumTitle.Text = "by Al&bum Title";
+			this.ViewByAlbumTitle.Click += new System.EventHandler(this.ViewByAlbumTitle_Click);
 			// 
 			// ViewBySongTitle
 			// 
 			this.ViewBySongTitle.Name = "ViewBySongTitle";
 			this.ViewBySongTitle.Size = new System.Drawing.Size(152, 22);
 			this.ViewBySongTitle.Text = "by &Song Title";
+			this.ViewBySongTitle.Click += new System.EventHandler(this.ViewBySongTitle_Click);
 			// 
 			// ViewLevel
 			// 
@@ -403,6 +416,7 @@
 			this.ViewOptions.Name = "ViewOptions";
 			this.ViewOptions.Size = new System.Drawing.Size(136, 22);
 			this.ViewOptions.Text = "&Options...";
+			this.ViewOptions.Click += new System.EventHandler(this.ViewOptions_Click);
 			// 
 			// toolStripMenuItem6
 			// 
@@ -473,11 +487,49 @@
 			this.ModifiedLabel.Text = "Modified";
 			this.ModifiedLabel.Visible = false;
 			// 
+			// PopupMenu
+			// 
+			this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupVisibleColumns,
+            this.PopupGroups,
+            this.PopupSort,
+            this.PopupOptions});
+			this.PopupMenu.Name = "PopupMenu";
+			this.PopupMenu.Size = new System.Drawing.Size(169, 114);
+			// 
+			// PopupVisibleColumns
+			// 
+			this.PopupVisibleColumns.Name = "PopupVisibleColumns";
+			this.PopupVisibleColumns.Size = new System.Drawing.Size(168, 22);
+			this.PopupVisibleColumns.Text = "&Visible Columns...";
+			this.PopupVisibleColumns.Click += new System.EventHandler(this.PopupVisibleColumns_Click);
+			// 
+			// PopupGroups
+			// 
+			this.PopupGroups.Name = "PopupGroups";
+			this.PopupGroups.Size = new System.Drawing.Size(168, 22);
+			this.PopupGroups.Text = "&Groups...";
+			this.PopupGroups.Click += new System.EventHandler(this.PopupGroups_Click);
+			// 
+			// PopupSort
+			// 
+			this.PopupSort.Name = "PopupSort";
+			this.PopupSort.Size = new System.Drawing.Size(168, 22);
+			this.PopupSort.Text = "&Sort...";
+			this.PopupSort.Click += new System.EventHandler(this.PopupSort_Click);
+			// 
+			// PopupOptions
+			// 
+			this.PopupOptions.Name = "PopupOptions";
+			this.PopupOptions.Size = new System.Drawing.Size(168, 22);
+			this.PopupOptions.Text = "&Options...";
+			this.PopupOptions.Click += new System.EventHandler(this.PopupOptions_Click);
+			// 
 			// tagFileBindingSource
 			// 
 			this.tagFileBindingSource.DataSource = typeof(TagScanner.Models.Track);
 			// 
-			// MainForm
+			// GridForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -485,7 +537,7 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.MainMenu);
 			this.Controls.Add(this.StatusBar);
-			this.Name = "MainForm";
+			this.Name = "GridForm";
 			this.Text = "ID3 Tag Explorer";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -502,6 +554,7 @@
 			this.MainMenu.PerformLayout();
 			this.StatusBar.ResumeLayout(false);
 			this.StatusBar.PerformLayout();
+			this.PopupMenu.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.tagFileBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -551,11 +604,16 @@
 		private System.Windows.Forms.ToolStripMenuItem FileReopen;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
-		private System.Windows.Forms.Integration.ElementHost GridContainerHost;
+		private System.Windows.Forms.Integration.ElementHost GridElementHost;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
 		private System.Windows.Forms.ToolStripMenuItem technologyToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem winFormsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem wPFToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip PopupMenu;
+		private System.Windows.Forms.ToolStripMenuItem PopupVisibleColumns;
+		private System.Windows.Forms.ToolStripMenuItem PopupGroups;
+		private System.Windows.Forms.ToolStripMenuItem PopupSort;
+		private System.Windows.Forms.ToolStripMenuItem PopupOptions;
 	}
 }
 
