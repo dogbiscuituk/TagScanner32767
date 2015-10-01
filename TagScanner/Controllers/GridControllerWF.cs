@@ -53,7 +53,7 @@ namespace TagScanner.Controllers
 
 		public IEnumerable<DataGridViewColumn> GetColumns()
 		{
-			return PropertyInfos.Select(GetColumn).Where(c => c != null);
+			return SimpleCondition.SortablePropertyInfos.Select(GetColumn);
 		}
 
 		private int _displayIndex;
@@ -108,6 +108,14 @@ namespace TagScanner.Controllers
 				column.DisplayIndex = displayIndex++;
 				column.Visible = true;
 			}
+		}
+
+		#endregion
+
+		#region Filter
+
+		protected override void InitFilter()
+		{
 		}
 
 		#endregion

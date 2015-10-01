@@ -90,14 +90,11 @@ namespace TagScanner.Controllers
 
 		#region Columns
 
-		protected static readonly PropertyInfo[] PropertyInfos = typeof(ITrack).GetProperties();
-
 		protected object GetColumn(string propertyTypeName)
 		{
 			switch (propertyTypeName)
 			{
 				case "String":
-				case "TagTypes":
 					return GetTextBoxColumn(StringAlignment.Near);
 				case "Int32":
 				case "Int64":
@@ -112,14 +109,6 @@ namespace TagScanner.Controllers
 		protected abstract object GetCheckBoxColumn();
 		protected abstract object GetTextBoxColumn(StringAlignment alignment);
 
-		public IEnumerable<string> SortableColumnNames
-		{
-			get
-			{
-				return PropertyInfos.Select(p => p.Name);
-			}
-		}
-
 		private IEnumerable<string> _visibleColumnNames = new[] { "FilePath" };
 		public IEnumerable<string> VisibleColumnNames
 		{
@@ -129,6 +118,8 @@ namespace TagScanner.Controllers
 			}
 			set
 			{
+				if (VisibleColumnNames.SequenceEqual(value))
+					return;
 				_visibleColumnNames = value;
 				InitVisibleColumns();
             }
@@ -138,10 +129,31 @@ namespace TagScanner.Controllers
 
 		#endregion
 
+		#region Filter
+
+		private Predicate<object> _filter = p => true;
+
+		public Predicate<object> Filter
+		{
+			get
+			{
+				return _filter;
+			}
+			set
+			{
+				_filter = value;
+				InitFilter();
+			}
+		}
+
+		protected abstract void InitFilter();
+
+		#endregion
+
 		#region Groups
 
-		private string[] _groups = new string[0];
-		public string[] Groups
+		private IEnumerable<string> _groups = new string[0];
+		public IEnumerable<string> Groups
 		{
 			get
 			{
@@ -149,6 +161,8 @@ namespace TagScanner.Controllers
 			}
 			set
 			{
+				if (Groups.SequenceEqual(value))
+					return;
 				_groups = value;
 				InitGroups();
 			}
@@ -234,7 +248,7 @@ namespace TagScanner.Controllers
 			Groups = new[]
 			{
 				"JoinedPerformers",
-				"Album"
+				"YearAlbum"
 			};
 		}
 
@@ -252,7 +266,7 @@ namespace TagScanner.Controllers
 				"IsClassical",
 				"JoinedGenres",
 				"JoinedPerformers",
-				"Album"
+				"YearAlbum"
 			};
 		}
 

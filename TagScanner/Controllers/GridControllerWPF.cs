@@ -62,7 +62,7 @@ namespace TagScanner.Controllers
 		#region Columns
 		public IEnumerable<DataGridBoundColumn> GetColumns()
 		{
-			return PropertyInfos.Select(GetColumn).Where(c => c != null);
+			return SimpleCondition.SortablePropertyInfos.Select(GetColumn);
 		}
 
 		private DataGridBoundColumn GetColumn(PropertyInfo propertyInfo)
@@ -112,11 +112,22 @@ namespace TagScanner.Controllers
 
 		#endregion
 
+		#region Filter
+
+		protected override void InitFilter()
+		{
+			var listCollectionView = (ListCollectionView)Grid.ItemsSource;
+			listCollectionView.Filter = Filter;
+        }
+
+		#endregion
+
 		#region Groups
 
 		protected override void InitGroups()
 		{
-			var groupDescriptions = ((ListCollectionView)Grid.ItemsSource).GroupDescriptions;
+			var listCollectionView = (ListCollectionView)Grid.ItemsSource;
+            var groupDescriptions = listCollectionView.GroupDescriptions;
 			groupDescriptions.Clear();
 			foreach (var group in Groups)
                 groupDescriptions.Add(new PropertyGroupDescription(group));

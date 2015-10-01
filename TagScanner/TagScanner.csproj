@@ -72,8 +72,14 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ColumnChooserController.cs" />
+    <Compile Include="Controllers\FilterEditController.cs" />
+    <Compile Include="Controllers\FilterEditControllerSimple.cs" />
+    <Compile Include="Models\CompoundCondition.cs" />
+    <Compile Include="Models\SimpleCondition.cs" />
+    <Compile Include="Models\Operator.cs" />
+    <Compile Include="Controllers\SelectController.cs" />
     <Compile Include="Controllers\CursorController.cs" />
+    <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\GridControllerWPF.cs" />
     <Compile Include="Controllers\LogicalConverter.cs" />
@@ -91,6 +97,13 @@
     </Compile>
     <Compile Include="Views\ColumnChooser.Designer.cs">
       <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\FilterEditControllerCompound.cs" />
+    <Compile Include="Views\FilterEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\FilterEditor.Designer.cs">
+      <DependentUpon>FilterEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\GridElement.xaml.cs">
       <DependentUpon>GridElement.xaml</DependentUpon>
@@ -122,6 +135,9 @@
     </Compile>
     <EmbeddedResource Include="Views\ColumnChooser.resx">
       <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FilterEditor.resx">
+      <DependentUpon>FilterEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GridForm.resx">
       <DependentUpon>GridForm.cs</DependentUpon>

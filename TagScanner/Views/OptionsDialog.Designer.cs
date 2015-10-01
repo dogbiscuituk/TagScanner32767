@@ -29,11 +29,11 @@
 		private void InitializeComponent()
 		{
 			this.TabControl = new System.Windows.Forms.TabControl();
-			this.SelectColumnsPage = new System.Windows.Forms.TabPage();
-			this.WhereFilterPage = new System.Windows.Forms.TabPage();
-			this.GroupByColumnsPage = new System.Windows.Forms.TabPage();
-			this.HavingFilterPage = new System.Windows.Forms.TabPage();
-			this.OrderByColumnsPage = new System.Windows.Forms.TabPage();
+			this.ColumnsPage = new System.Windows.Forms.TabPage();
+			this.FiltersPage = new System.Windows.Forms.TabPage();
+			this.GroupsPage = new System.Windows.Forms.TabPage();
+			this.HavingPage = new System.Windows.Forms.TabPage();
+			this.SortingPage = new System.Windows.Forms.TabPage();
 			this.OptionsPage = new System.Windows.Forms.TabPage();
 			this.cbGridLinesVertical = new System.Windows.Forms.CheckBox();
 			this.cbGridLinesHorizontal = new System.Windows.Forms.CheckBox();
@@ -51,11 +51,11 @@
 			// 
 			// TabControl
 			// 
-			this.TabControl.Controls.Add(this.SelectColumnsPage);
-			this.TabControl.Controls.Add(this.WhereFilterPage);
-			this.TabControl.Controls.Add(this.GroupByColumnsPage);
-			this.TabControl.Controls.Add(this.HavingFilterPage);
-			this.TabControl.Controls.Add(this.OrderByColumnsPage);
+			this.TabControl.Controls.Add(this.ColumnsPage);
+			this.TabControl.Controls.Add(this.FiltersPage);
+			this.TabControl.Controls.Add(this.GroupsPage);
+			this.TabControl.Controls.Add(this.HavingPage);
+			this.TabControl.Controls.Add(this.SortingPage);
 			this.TabControl.Controls.Add(this.OptionsPage);
 			this.TabControl.Location = new System.Drawing.Point(12, 12);
 			this.TabControl.Name = "TabControl";
@@ -63,53 +63,53 @@
 			this.TabControl.Size = new System.Drawing.Size(528, 389);
 			this.TabControl.TabIndex = 13;
 			// 
-			// SelectColumnsPage
+			// ColumnsPage
 			// 
-			this.SelectColumnsPage.Location = new System.Drawing.Point(4, 22);
-			this.SelectColumnsPage.Name = "SelectColumnsPage";
-			this.SelectColumnsPage.Padding = new System.Windows.Forms.Padding(3);
-			this.SelectColumnsPage.Size = new System.Drawing.Size(520, 363);
-			this.SelectColumnsPage.TabIndex = 0;
-			this.SelectColumnsPage.Text = "Visible Columns";
-			this.SelectColumnsPage.UseVisualStyleBackColor = true;
+			this.ColumnsPage.Location = new System.Drawing.Point(4, 22);
+			this.ColumnsPage.Name = "ColumnsPage";
+			this.ColumnsPage.Padding = new System.Windows.Forms.Padding(3);
+			this.ColumnsPage.Size = new System.Drawing.Size(520, 363);
+			this.ColumnsPage.TabIndex = 0;
+			this.ColumnsPage.Text = "Columns";
+			this.ColumnsPage.UseVisualStyleBackColor = true;
 			// 
-			// WhereFilterPage
+			// FiltersPage
 			// 
-			this.WhereFilterPage.Location = new System.Drawing.Point(4, 22);
-			this.WhereFilterPage.Name = "WhereFilterPage";
-			this.WhereFilterPage.Size = new System.Drawing.Size(520, 363);
-			this.WhereFilterPage.TabIndex = 3;
-			this.WhereFilterPage.Text = "Where";
-			this.WhereFilterPage.UseVisualStyleBackColor = true;
+			this.FiltersPage.Location = new System.Drawing.Point(4, 22);
+			this.FiltersPage.Name = "FiltersPage";
+			this.FiltersPage.Size = new System.Drawing.Size(520, 363);
+			this.FiltersPage.TabIndex = 3;
+			this.FiltersPage.Text = "Filters";
+			this.FiltersPage.UseVisualStyleBackColor = true;
 			// 
-			// GroupByColumnsPage
+			// GroupsPage
 			// 
-			this.GroupByColumnsPage.Location = new System.Drawing.Point(4, 22);
-			this.GroupByColumnsPage.Name = "GroupByColumnsPage";
-			this.GroupByColumnsPage.Padding = new System.Windows.Forms.Padding(3);
-			this.GroupByColumnsPage.Size = new System.Drawing.Size(520, 363);
-			this.GroupByColumnsPage.TabIndex = 1;
-			this.GroupByColumnsPage.Text = "Grouping";
-			this.GroupByColumnsPage.UseVisualStyleBackColor = true;
+			this.GroupsPage.Location = new System.Drawing.Point(4, 22);
+			this.GroupsPage.Name = "GroupsPage";
+			this.GroupsPage.Padding = new System.Windows.Forms.Padding(3);
+			this.GroupsPage.Size = new System.Drawing.Size(520, 363);
+			this.GroupsPage.TabIndex = 1;
+			this.GroupsPage.Text = "Groups";
+			this.GroupsPage.UseVisualStyleBackColor = true;
 			// 
-			// HavingFilterPage
+			// HavingPage
 			// 
-			this.HavingFilterPage.Location = new System.Drawing.Point(4, 22);
-			this.HavingFilterPage.Name = "HavingFilterPage";
-			this.HavingFilterPage.Size = new System.Drawing.Size(520, 363);
-			this.HavingFilterPage.TabIndex = 4;
-			this.HavingFilterPage.Text = "Having";
-			this.HavingFilterPage.UseVisualStyleBackColor = true;
+			this.HavingPage.Location = new System.Drawing.Point(4, 22);
+			this.HavingPage.Name = "HavingPage";
+			this.HavingPage.Size = new System.Drawing.Size(520, 363);
+			this.HavingPage.TabIndex = 4;
+			this.HavingPage.Text = "Group Filters";
+			this.HavingPage.UseVisualStyleBackColor = true;
 			// 
-			// OrderByColumnsPage
+			// SortingPage
 			// 
-			this.OrderByColumnsPage.Location = new System.Drawing.Point(4, 22);
-			this.OrderByColumnsPage.Name = "OrderByColumnsPage";
-			this.OrderByColumnsPage.Padding = new System.Windows.Forms.Padding(3);
-			this.OrderByColumnsPage.Size = new System.Drawing.Size(520, 363);
-			this.OrderByColumnsPage.TabIndex = 2;
-			this.OrderByColumnsPage.Text = "Sort";
-			this.OrderByColumnsPage.UseVisualStyleBackColor = true;
+			this.SortingPage.Location = new System.Drawing.Point(4, 22);
+			this.SortingPage.Name = "SortingPage";
+			this.SortingPage.Padding = new System.Windows.Forms.Padding(3);
+			this.SortingPage.Size = new System.Drawing.Size(520, 363);
+			this.SortingPage.TabIndex = 2;
+			this.SortingPage.Text = "Sorting";
+			this.SortingPage.UseVisualStyleBackColor = true;
 			// 
 			// OptionsPage
 			// 
@@ -254,12 +254,12 @@
 		#endregion
 
 		public System.Windows.Forms.TabControl TabControl;
-		public System.Windows.Forms.TabPage SelectColumnsPage;
-		private System.Windows.Forms.TabPage WhereFilterPage;
-		public System.Windows.Forms.TabPage GroupByColumnsPage;
-		private System.Windows.Forms.TabPage HavingFilterPage;
-		public System.Windows.Forms.TabPage OrderByColumnsPage;
-		private System.Windows.Forms.TabPage OptionsPage;
+		public System.Windows.Forms.TabPage ColumnsPage;
+		public System.Windows.Forms.TabPage FiltersPage;
+		public System.Windows.Forms.TabPage GroupsPage;
+		public System.Windows.Forms.TabPage HavingPage;
+		public System.Windows.Forms.TabPage SortingPage;
+		public System.Windows.Forms.TabPage OptionsPage;
 		public System.Windows.Forms.CheckBox cbGridLinesVertical;
 		public System.Windows.Forms.CheckBox cbGridLinesHorizontal;
 		public System.Windows.Forms.CheckBox cbAutoFitColumns;
@@ -268,7 +268,7 @@
 		public System.Windows.Forms.CheckBox cbMergeCells;
 		public System.Windows.Forms.CheckBox cbShowExact;
 		public System.Windows.Forms.Button btnApply;
-		private System.Windows.Forms.Button btnCancel;
-		private System.Windows.Forms.Button btnOK;
+		public System.Windows.Forms.Button btnCancel;
+		public System.Windows.Forms.Button btnOK;
 	}
 }

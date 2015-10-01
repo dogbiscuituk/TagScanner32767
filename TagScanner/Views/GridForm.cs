@@ -208,9 +208,14 @@ namespace TagScanner.Views
 
 		#region Popup Menu
 
-		private void PopupVisibleColumns_Click(object sender, EventArgs e)
+		private void PopupColumns_Click(object sender, EventArgs e)
 		{
 			EditQuery(0);
+		}
+
+		private void PopupFilters_Click(object sender, EventArgs e)
+		{
+			EditQuery(1);
 		}
 
 		private void PopupGroups_Click(object sender, EventArgs e)
@@ -218,7 +223,7 @@ namespace TagScanner.Views
 			EditQuery(2);
 		}
 
-		private void PopupSort_Click(object sender, EventArgs e)
+		private void PopupSorting_Click(object sender, EventArgs e)
 		{
 			EditQuery(4);
 		}

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.lblAvailableColumns = new System.Windows.Forms.Label();
 			this.listView1 = new System.Windows.Forms.ListView();
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -41,6 +42,7 @@
 			this.btnAddAll = new System.Windows.Forms.Button();
 			this.btnMoveUp = new System.Windows.Forms.Button();
 			this.btnMoveDown = new System.Windows.Forms.Button();
+			this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.SuspendLayout();
 			// 
 			// lblAvailableColumns
@@ -49,7 +51,7 @@
 			this.lblAvailableColumns.Location = new System.Drawing.Point(20, 20);
 			this.lblAvailableColumns.Name = "lblAvailableColumns";
 			this.lblAvailableColumns.Size = new System.Drawing.Size(93, 13);
-			this.lblAvailableColumns.TabIndex = 11;
+			this.lblAvailableColumns.TabIndex = 0;
 			this.lblAvailableColumns.Text = "&Available Columns";
 			// 
 			// listView1
@@ -60,11 +62,11 @@
 			this.listView1.FullRowSelect = true;
 			this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.listView1.HideSelection = false;
-			this.listView1.Location = new System.Drawing.Point(23, 37);
+			this.listView1.Location = new System.Drawing.Point(23, 36);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(200, 309);
+			this.listView1.Size = new System.Drawing.Size(200, 310);
 			this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
-			this.listView1.TabIndex = 12;
+			this.listView1.TabIndex = 1;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			this.listView1.View = System.Windows.Forms.View.Details;
 			// 
@@ -79,7 +81,7 @@
 			this.lblSelectedColumns.Location = new System.Drawing.Point(262, 20);
 			this.lblSelectedColumns.Name = "lblSelectedColumns";
 			this.lblSelectedColumns.Size = new System.Drawing.Size(92, 13);
-			this.lblSelectedColumns.TabIndex = 13;
+			this.lblSelectedColumns.TabIndex = 2;
 			this.lblSelectedColumns.Text = "&Selected Columns";
 			// 
 			// listView2
@@ -93,7 +95,7 @@
 			this.listView2.Location = new System.Drawing.Point(265, 36);
 			this.listView2.Name = "listView2";
 			this.listView2.Size = new System.Drawing.Size(200, 310);
-			this.listView2.TabIndex = 14;
+			this.listView2.TabIndex = 4;
 			this.listView2.UseCompatibleStateImageBehavior = false;
 			this.listView2.View = System.Windows.Forms.View.Details;
 			// 
@@ -108,7 +110,7 @@
 			this.lblCheckBoxes.Location = new System.Drawing.Point(360, 20);
 			this.lblCheckBoxes.Name = "lblCheckBoxes";
 			this.lblCheckBoxes.Size = new System.Drawing.Size(116, 13);
-			this.lblCheckBoxes.TabIndex = 21;
+			this.lblCheckBoxes.TabIndex = 3;
 			this.lblCheckBoxes.Text = "(check => descending)";
 			// 
 			// btnRemoveAll
@@ -116,8 +118,9 @@
 			this.btnRemoveAll.Location = new System.Drawing.Point(229, 133);
 			this.btnRemoveAll.Name = "btnRemoveAll";
 			this.btnRemoveAll.Size = new System.Drawing.Size(30, 23);
-			this.btnRemoveAll.TabIndex = 22;
+			this.btnRemoveAll.TabIndex = 5;
 			this.btnRemoveAll.Text = "<<";
+			this.ToolTip.SetToolTip(this.btnRemoveAll, "Remove All");
 			this.btnRemoveAll.UseVisualStyleBackColor = true;
 			// 
 			// btnRemove
@@ -125,8 +128,9 @@
 			this.btnRemove.Location = new System.Drawing.Point(229, 162);
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.Size = new System.Drawing.Size(30, 23);
-			this.btnRemove.TabIndex = 23;
+			this.btnRemove.TabIndex = 6;
 			this.btnRemove.Text = "<";
+			this.ToolTip.SetToolTip(this.btnRemove, "Remove Selected");
 			this.btnRemove.UseVisualStyleBackColor = true;
 			// 
 			// btnAdd
@@ -134,8 +138,9 @@
 			this.btnAdd.Location = new System.Drawing.Point(229, 191);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(30, 23);
-			this.btnAdd.TabIndex = 24;
+			this.btnAdd.TabIndex = 7;
 			this.btnAdd.Text = ">";
+			this.ToolTip.SetToolTip(this.btnAdd, "Add Selected");
 			this.btnAdd.UseVisualStyleBackColor = true;
 			// 
 			// btnAddAll
@@ -143,8 +148,9 @@
 			this.btnAddAll.Location = new System.Drawing.Point(229, 220);
 			this.btnAddAll.Name = "btnAddAll";
 			this.btnAddAll.Size = new System.Drawing.Size(30, 23);
-			this.btnAddAll.TabIndex = 25;
+			this.btnAddAll.TabIndex = 8;
 			this.btnAddAll.Text = ">>";
+			this.ToolTip.SetToolTip(this.btnAddAll, "Add All");
 			this.btnAddAll.UseVisualStyleBackColor = true;
 			// 
 			// btnMoveUp
@@ -153,7 +159,8 @@
 			this.btnMoveUp.Location = new System.Drawing.Point(471, 162);
 			this.btnMoveUp.Name = "btnMoveUp";
 			this.btnMoveUp.Size = new System.Drawing.Size(30, 23);
-			this.btnMoveUp.TabIndex = 26;
+			this.btnMoveUp.TabIndex = 9;
+			this.ToolTip.SetToolTip(this.btnMoveUp, "Move Up");
 			this.btnMoveUp.UseVisualStyleBackColor = true;
 			// 
 			// btnMoveDown
@@ -162,7 +169,8 @@
 			this.btnMoveDown.Location = new System.Drawing.Point(471, 191);
 			this.btnMoveDown.Name = "btnMoveDown";
 			this.btnMoveDown.Size = new System.Drawing.Size(30, 23);
-			this.btnMoveDown.TabIndex = 27;
+			this.btnMoveDown.TabIndex = 10;
+			this.ToolTip.SetToolTip(this.btnMoveDown, "Move Down");
 			this.btnMoveDown.UseVisualStyleBackColor = true;
 			// 
 			// ColumnChooser
@@ -202,5 +210,6 @@
 		public System.Windows.Forms.Button btnAddAll;
 		public System.Windows.Forms.Button btnMoveUp;
 		public System.Windows.Forms.Button btnMoveDown;
+		private System.Windows.Forms.ToolTip ToolTip;
 	}
 }

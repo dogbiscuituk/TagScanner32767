@@ -15,12 +15,14 @@ namespace TagScanner.Controllers
 			GridController = gridController;
 			OptionsDialog = new OptionsDialog();
 			OptionsDialog.btnApply.Click += ApplyButton_Click;
-			VisibleColumnsPageController = new ColumnChooserController(OptionsDialog.SelectColumnsPage, false);
-			GroupByColumnsPageController = new ColumnChooserController(OptionsDialog.GroupByColumnsPage, true);
-			OrderByColumnsPageController = new ColumnChooserController(OptionsDialog.OrderByColumnsPage, true);
+			ColumnsController = new SelectController(OptionsDialog.ColumnsPage, Options.EnableAddAll);
+			FiltersController = new FilterController(OptionsDialog.FiltersPage);
+			GroupsController = new SelectController(OptionsDialog.GroupsPage);
+			HavingController = new FilterController(OptionsDialog.HavingPage);
+			OrdersController = new SelectController(OptionsDialog.SortingPage, Options.ShowCheckBoxes);
 			// Disable the option to quickly add all available fields to the Group By clause.
 			// This is not realistic and has a severe performance penalty if done accidentally.
-			GroupByColumnsPageController.CanAddAll = false;
+			GroupsController.CanAddAll = false;
 		}
 
 		#endregion
@@ -31,9 +33,11 @@ namespace TagScanner.Controllers
 
 		private OptionsDialog OptionsDialog { get; set; }
 
-		private ColumnChooserController GroupByColumnsPageController { get; set; }
-		private ColumnChooserController OrderByColumnsPageController { get; set; }
-		private ColumnChooserController VisibleColumnsPageController { get; set; }
+		private SelectController ColumnsController { get; set; }
+		private FilterController FiltersController { get; set; }
+		private SelectController GroupsController { get; set; }
+		private FilterController HavingController { get; set; }
+		private SelectController OrdersController { get; set; }
 
 		#endregion
 
@@ -41,11 +45,11 @@ namespace TagScanner.Controllers
 
 		private void Apply()
 		{
-			/*GridController.SetView(
-				VisibleColumnsPageController.ChosenProperties,
-				GroupByColumnsPageController.ChosenGroupings,
-				OrderByColumnsPageController.ChosenOrderings);
-			OptionsApply();*/
+			GridController.Filter = FiltersController.Predicate;
+			GridController.VisibleColumnNames = ColumnsController.ChosenColumnNames;
+			//GridController.Orders = OrderByColumnsController.ChosenOrders;
+            GridController.Groups = GroupsController.ChosenColumnNames;
+			OptionsApply();
 		}
 
 		private void ApplyButton_Click(object sender, EventArgs e)
@@ -85,13 +89,21 @@ namespace TagScanner.Controllers
 
 		private void Setup()
 		{
-			var columns = GridController.SortableColumnNames.ToList();
-			VisibleColumnsPageController.Init(columns, GridController.VisibleColumnNames.Select(p => new Order(p)));
-			GroupByColumnsPageController.Init(columns, GridController.Groups.Select(p => new Order(p)));
-			OrderByColumnsPageController.Init(columns, new Order[0]);
+			var columns = SimpleCondition.SortableColumnNames.ToList();
+			ColumnsController.Init(columns, GridController.VisibleColumnNames.Select(p => new Order(p)));
+			GroupsController.Init(columns, GridController.Groups.Select(p => new Order(p)));
+			OrdersController.Init(columns, new Order[0]);
 			OptionsSetup();
 		}
 
 		#endregion
+
+		[Flags]
+		public enum Options
+		{
+			None = 0,
+			ShowCheckBoxes = 1,
+			EnableAddAll = 2
+		}
 	}
 }

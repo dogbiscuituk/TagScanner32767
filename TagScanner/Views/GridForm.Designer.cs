@@ -32,6 +32,12 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
+			this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.PopupColumns = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupFilters = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupGroups = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupSorting = new System.Windows.Forms.ToolStripMenuItem();
+			this.PopupOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.DataGrid = new System.Windows.Forms.DataGridView();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.PictureBox = new System.Windows.Forms.PictureBox();
@@ -75,16 +81,12 @@
 			this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
 			this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.PopupVisibleColumns = new System.Windows.Forms.ToolStripMenuItem();
-			this.PopupGroups = new System.Windows.Forms.ToolStripMenuItem();
-			this.PopupSort = new System.Windows.Forms.ToolStripMenuItem();
-			this.PopupOptions = new System.Windows.Forms.ToolStripMenuItem();
-			this.tagFileBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.PopupMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
@@ -93,8 +95,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
 			this.MainMenu.SuspendLayout();
 			this.StatusBar.SuspendLayout();
-			this.PopupMenu.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.tagFileBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
@@ -124,6 +124,53 @@
 			this.GridElementHost.TabIndex = 2;
 			this.GridElementHost.Text = "GridContainerHost";
 			this.GridElementHost.Child = null;
+			// 
+			// PopupMenu
+			// 
+			this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupColumns,
+            this.PopupFilters,
+            this.PopupGroups,
+            this.PopupSorting,
+            this.toolStripMenuItem7,
+            this.PopupOptions});
+			this.PopupMenu.Name = "PopupMenu";
+			this.PopupMenu.Size = new System.Drawing.Size(132, 120);
+			// 
+			// PopupColumns
+			// 
+			this.PopupColumns.Name = "PopupColumns";
+			this.PopupColumns.Size = new System.Drawing.Size(131, 22);
+			this.PopupColumns.Text = "&Columns...";
+			this.PopupColumns.Click += new System.EventHandler(this.PopupColumns_Click);
+			// 
+			// PopupFilters
+			// 
+			this.PopupFilters.Name = "PopupFilters";
+			this.PopupFilters.Size = new System.Drawing.Size(131, 22);
+			this.PopupFilters.Text = "&Filters...";
+			this.PopupFilters.Click += new System.EventHandler(this.PopupFilters_Click);
+			// 
+			// PopupGroups
+			// 
+			this.PopupGroups.Name = "PopupGroups";
+			this.PopupGroups.Size = new System.Drawing.Size(131, 22);
+			this.PopupGroups.Text = "&Groups...";
+			this.PopupGroups.Click += new System.EventHandler(this.PopupGroups_Click);
+			// 
+			// PopupSorting
+			// 
+			this.PopupSorting.Name = "PopupSorting";
+			this.PopupSorting.Size = new System.Drawing.Size(131, 22);
+			this.PopupSorting.Text = "&Sorting...";
+			this.PopupSorting.Click += new System.EventHandler(this.PopupSorting_Click);
+			// 
+			// PopupOptions
+			// 
+			this.PopupOptions.Name = "PopupOptions";
+			this.PopupOptions.Size = new System.Drawing.Size(131, 22);
+			this.PopupOptions.Text = "&Options...";
+			this.PopupOptions.Click += new System.EventHandler(this.PopupOptions_Click);
 			// 
 			// DataGrid
 			// 
@@ -487,47 +534,10 @@
 			this.ModifiedLabel.Text = "Modified";
 			this.ModifiedLabel.Visible = false;
 			// 
-			// PopupMenu
+			// toolStripMenuItem7
 			// 
-			this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupVisibleColumns,
-            this.PopupGroups,
-            this.PopupSort,
-            this.PopupOptions});
-			this.PopupMenu.Name = "PopupMenu";
-			this.PopupMenu.Size = new System.Drawing.Size(169, 114);
-			// 
-			// PopupVisibleColumns
-			// 
-			this.PopupVisibleColumns.Name = "PopupVisibleColumns";
-			this.PopupVisibleColumns.Size = new System.Drawing.Size(168, 22);
-			this.PopupVisibleColumns.Text = "&Visible Columns...";
-			this.PopupVisibleColumns.Click += new System.EventHandler(this.PopupVisibleColumns_Click);
-			// 
-			// PopupGroups
-			// 
-			this.PopupGroups.Name = "PopupGroups";
-			this.PopupGroups.Size = new System.Drawing.Size(168, 22);
-			this.PopupGroups.Text = "&Groups...";
-			this.PopupGroups.Click += new System.EventHandler(this.PopupGroups_Click);
-			// 
-			// PopupSort
-			// 
-			this.PopupSort.Name = "PopupSort";
-			this.PopupSort.Size = new System.Drawing.Size(168, 22);
-			this.PopupSort.Text = "&Sort...";
-			this.PopupSort.Click += new System.EventHandler(this.PopupSort_Click);
-			// 
-			// PopupOptions
-			// 
-			this.PopupOptions.Name = "PopupOptions";
-			this.PopupOptions.Size = new System.Drawing.Size(168, 22);
-			this.PopupOptions.Text = "&Options...";
-			this.PopupOptions.Click += new System.EventHandler(this.PopupOptions_Click);
-			// 
-			// tagFileBindingSource
-			// 
-			this.tagFileBindingSource.DataSource = typeof(TagScanner.Models.Track);
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(128, 6);
 			// 
 			// GridForm
 			// 
@@ -544,6 +554,7 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.PopupMenu.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.DataGrid)).EndInit();
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
@@ -554,8 +565,6 @@
 			this.MainMenu.PerformLayout();
 			this.StatusBar.ResumeLayout(false);
 			this.StatusBar.PerformLayout();
-			this.PopupMenu.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.tagFileBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -587,7 +596,6 @@
 		private System.Windows.Forms.ToolStripMenuItem HelpMenu;
 		private System.Windows.Forms.ToolStripMenuItem HelpAbout;
 		private System.Windows.Forms.FolderBrowserDialog AddFolderDialog;
-		private System.Windows.Forms.BindingSource tagFileBindingSource;
 		private System.Windows.Forms.OpenFileDialog AddFileDialog;
         private System.Windows.Forms.DataGridView DataGrid;
 		private System.Windows.Forms.StatusStrip StatusBar;
@@ -610,10 +618,12 @@
 		private System.Windows.Forms.ToolStripMenuItem winFormsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem wPFToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip PopupMenu;
-		private System.Windows.Forms.ToolStripMenuItem PopupVisibleColumns;
+		private System.Windows.Forms.ToolStripMenuItem PopupColumns;
 		private System.Windows.Forms.ToolStripMenuItem PopupGroups;
-		private System.Windows.Forms.ToolStripMenuItem PopupSort;
+		private System.Windows.Forms.ToolStripMenuItem PopupSorting;
 		private System.Windows.Forms.ToolStripMenuItem PopupOptions;
+		private System.Windows.Forms.ToolStripMenuItem PopupFilters;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 	}
 }
 
