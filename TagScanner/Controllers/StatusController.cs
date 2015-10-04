@@ -32,7 +32,6 @@ namespace TagScanner.Controllers
 						progressBar.Value = e.Index;
 						if (e.Success)
 							Model.Modified = true;
-						System.Diagnostics.Debug.WriteLine("{0}/{1} {2}", e.Index, e.Count, e.Path);
 					}
 					else
 					{

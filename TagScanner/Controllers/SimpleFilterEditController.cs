@@ -6,11 +6,11 @@ using TagScanner.Views;
 
 namespace TagScanner.Controllers
 {
-	public class FilterEditControllerSimple : FilterEditController
+	public class SimpleFilterEditController : FilterEditController
 	{
 		#region Lifetime Management
 
-		public FilterEditControllerSimple(FilterEditor view) : base(view) { }
+		public SimpleFilterEditController(FilterEditor view) : base(view) { }
 
 		#endregion
 
@@ -139,14 +139,14 @@ namespace TagScanner.Controllers
 			}
 		}
 
-		private TextBox _valueEditText;
-		private TextBox ValueEditText
+		private ComboBox _valueEditText;
+		private ComboBox ValueEditText
 		{
 			get
 			{
 				if (_valueEditText == null)
 				{
-					_valueEditText = new TextBox
+					_valueEditText = new ComboBox
 					{
 						Dock = DockStyle.Bottom
 					};
@@ -199,13 +199,18 @@ namespace TagScanner.Controllers
 			{
 				Updating = true;
 				var simpleCondition = new SimpleCondition(value);
-				PropertyTypeName = simpleCondition.PropertyTypeName;
+				InitPropertyBox(simpleCondition.PropertyName);
 				PropertyBox.SelectedItem = simpleCondition.PropertyName;
 				OperatorBox.SelectedItem = simpleCondition.Operation;
 				ValueEdit[0].Text = simpleCondition.ValueString;
 				Updating = false;
 			}
 		}
+
+		private void InitPropertyBox(string propertyName)
+		{
+			PropertyTypeName = SimpleCondition.GetPropertyTypeName(propertyName);
+        }
 
 		private string _propertyTypeName;
 		private string PropertyTypeName
@@ -247,7 +252,8 @@ namespace TagScanner.Controllers
 
 		private void PropertyBox_ValueChanged(object sender, EventArgs e)
 		{
-			PropertyTypeName = SimpleCondition.GetPropertyTypeName(PropertyBox.Text);
+			var propertyName = PropertyBox.Text;
+			InitPropertyBox(propertyName);
 			OnValueChanged();
 		}
 

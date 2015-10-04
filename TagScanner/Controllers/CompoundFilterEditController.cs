@@ -5,11 +5,11 @@ using TagScanner.Views;
 
 namespace TagScanner.Controllers
 {
-	public class FilterEditControllerCompound : FilterEditController
+	public class CompoundFilterEditController : FilterEditController
 	{
 		#region Lifetime Management
 
-		public FilterEditControllerCompound(FilterEditor view) : base(view) { }
+		public CompoundFilterEditController(FilterEditor view) : base(view) { }
 
 		#endregion
 

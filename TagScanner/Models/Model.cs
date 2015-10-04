@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace TagScanner.Models
@@ -19,7 +18,7 @@ namespace TagScanner.Models
 			set
 			{
 				_tracks = value;
-				OnFilesChanged();
+				OnTracksChanged();
 			}
 		}
 
@@ -70,7 +69,7 @@ namespace TagScanner.Models
 		public void Clear()
 		{
 			_tracks.Clear();
-			OnFilesChanged();
+			OnTracksChanged();
 		}
 
 		public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress)
@@ -93,22 +92,15 @@ namespace TagScanner.Models
 
 		private Order[] _orders = new[]
 		{
-			/*new Order("JoinedPerformers"),
-			new Order("Year"),
-			new Order("Album"),
-			new Order("DiscNumber"),
-			new Order("TrackNumber")*/
-
 			new Order("YearAlbum"),
 			new Order("DiscNumber"),
 			new Order("TrackNumber")
-
 		};
 
-		protected virtual void OnFilesChanged()
+		protected virtual void OnTracksChanged()
 		{
-			var filesChanged = TracksChanged;
-			if (filesChanged != null)
+			var tracksChanged = TracksChanged;
+			if (tracksChanged != null)
 				TracksChanged(this, EventArgs.Empty);
 		}
 
@@ -131,66 +123,7 @@ namespace TagScanner.Models
 					tracks = Orders[index].ApplyNext(tracks);
 				_tracks = tracks.ToList();
 			}
-			OnFilesChanged();
-		}
-
-		private void GroupTracks1()
-		{
-			string z;
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-			for (int n = 0; n < 10; n++)
-			{
-				var groupedTracks1 =
-				_tracks
-					.GroupBy(p => new { p.Millennium, p.Century, p.Decade, p.Year, p.JoinedPerformers, p.Album })
-					.GroupBy(p => new { p.Key.Millennium, p.Key.Century, p.Key.Decade, p.Key.Year, p.Key.JoinedPerformers })
-					.GroupBy(p => new { p.Key.Millennium, p.Key.Century, p.Key.Decade, p.Key.Year })
-					.GroupBy(p => new { p.Key.Millennium, p.Key.Century, p.Key.Decade })
-					.GroupBy(p => new { p.Key.Millennium, p.Key.Century })
-					.GroupBy(p => p.Key.Millennium);
-				foreach (var a in groupedTracks1)
-					foreach (var b in a)
-						foreach (var c in b)
-							foreach (var d in c)
-								foreach (var e in d)
-									foreach (var f in e)
-										foreach (var g in f)
-											z = g.ToString();
-				Debug.Write("> ");
-			}
-			stopwatch.Stop();
-			Debug.WriteLine("Method One: " + stopwatch.Elapsed);
-		}
-
-		private void GroupTracks2()
-		{
-			string z;
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-			for (int n = 0; n < 10; n++)
-			{
-				var groupedTracks2 =
-					_tracks
-					.GroupBy(p => p.Millennium)
-					.Select(q => q.GroupBy(p => p.Century)
-						.Select(r => r.GroupBy(p => p.Decade)
-						.Select(s => s.GroupBy(p => p.Year)
-						.Select(t => t.GroupBy(p => p.JoinedPerformers)
-						.Select(u => u.GroupBy(p => p.Album)
-						)))));
-				foreach (var a in groupedTracks2)
-					foreach (var b in a)
-						foreach (var c in b)
-							foreach (var d in c)
-								foreach (var e in d)
-									foreach (var f in e)
-										foreach (var g in f)
-											z = g.ToString();
-				Debug.Write("> ");
-			}
-			stopwatch.Stop();
-			Debug.WriteLine("Method Two: " + stopwatch.Elapsed);
+			OnTracksChanged();
 		}
 
 		#endregion

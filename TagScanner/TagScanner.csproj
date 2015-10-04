@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\FilterEditController.cs" />
-    <Compile Include="Controllers\FilterEditControllerSimple.cs" />
+    <Compile Include="Controllers\SimpleFilterEditController.cs" />
     <Compile Include="Models\CompoundCondition.cs" />
     <Compile Include="Models\SimpleCondition.cs" />
     <Compile Include="Models\Operator.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Views\ColumnChooser.Designer.cs">
       <DependentUpon>ColumnChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\FilterEditControllerCompound.cs" />
+    <Compile Include="Controllers\CompoundFilterEditController.cs" />
     <Compile Include="Views\FilterEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

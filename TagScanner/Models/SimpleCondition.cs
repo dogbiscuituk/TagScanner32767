@@ -92,49 +92,28 @@ namespace TagScanner.Models
 			{
 				case Operator.Equal:
 					return ExpressionType.Equal;
-				case Operator.GreaterThan:
-					return ExpressionType.GreaterThan;
 				case Operator.LessThan:
 					return ExpressionType.LessThan;
 				case Operator.LessThanOrEqual:
 					return ExpressionType.LessThanOrEqual;
+				case Operator.GreaterThanOrEqual:
+					return ExpressionType.GreaterThan;
+				case Operator.GreaterThan:
+					return ExpressionType.GreaterThan;
 				case Operator.NotEqual:
 					return ExpressionType.NotEqual;
 			}
 			return ExpressionType.Equal;
 		}
 
-		public BinaryExpression ToExpression()
+		public BinaryExpression ToExpression(ParameterExpression parameter)
 		{
-			var expression = Expression.Parameter(typeof(ITrack), "propertyName");
-			var conversion = Expression.Convert(Expression.Property(expression, PropertyName), PropertyType);
-			var expressionType = OperatorToExpressionType(Operation);
-            var value = Expression.Constant(Value);
-			return Expression.MakeBinary(expressionType, conversion, value);
-			/*
-			var result = Expression.Lambda<Func<ITrack, bool>>(test, expression);
-			return result.Compile();
-			*/
-		}
-
-		public Func<ITrack, bool> ToFunc()
-		{
-			var expression = Expression.Parameter(typeof(ITrack), "propertyName");
-			var conversion = Expression.Convert(Expression.Property(expression, PropertyName), PropertyType);
-			var rhs = Expression.Constant(Value);
-			var test = Expression.MakeBinary(OperatorToExpressionType(Operation), conversion, rhs);
-			var result = Expression.Lambda<Func<ITrack, bool>>(test, expression);
-			return result.Compile();
-		}
-
-		private bool Test(object track)
-		{
-			return ToFunc()((ITrack)track);
-		}
-
-		public Predicate<object> ToPredicate()
-		{
-			return Test;
+			var property = Expression.Property(parameter, PropertyName);
+			var lhs = Expression.Convert(property, PropertyType);
+			var op = OperatorToExpressionType(Operation);
+            var rhs = Expression.Constant(Value);
+			var result = Expression.MakeBinary(op, lhs, rhs);
+			return result;
 		}
 
 		public override string ToString()
