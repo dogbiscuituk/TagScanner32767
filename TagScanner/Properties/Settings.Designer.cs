@@ -25,7 +25,7 @@ namespace TagScanner.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ID3 Library Files|*.id3lib|All Files (*.*)|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ID3 Media Library Files|*.id3lib|All Files (*.*)|*.*")]
         public string LibraryFilter {
             get {
                 return ((string)(this["LibraryFilter"]));

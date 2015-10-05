@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using TagScanner.Model;
+using TagScanner.Models;
 
 namespace TagScanner.Controllers
 {
@@ -11,7 +11,7 @@ namespace TagScanner.Controllers
 	{
 		#region Lifetime Management
 
-		public PersistenceController(TagFileModel model, Control view, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
+		public PersistenceController(Model model, Control view, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
 		{
 			Model = model;
 			View = view;
@@ -53,7 +53,7 @@ namespace TagScanner.Controllers
 			var result = SaveIfModified();
 			if (result)
 			{
-				Model.Files = new List<TagFile>();
+				Model.Tracks = new List<Track>();
 				Model.Modified = false;
 				FilePath = string.Empty;
 			}
@@ -76,6 +76,7 @@ namespace TagScanner.Controllers
 			if (!File.Exists(filePath))
 			{
 				if (MessageBox.Show(
+					View,
 					string.Format("The library file \"{0}\" no longer exists. Remove from menu?", filePath),
 					"Reopen Library File",
 					MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -94,6 +95,7 @@ namespace TagScanner.Controllers
 		{
 			if (Model.Modified)
 				switch (MessageBox.Show(
+					View,
 					"The contents of this library have changed. Do you want to save the changes?",
 					"Library modified",
 					MessageBoxButtons.YesNoCancel,
@@ -115,7 +117,7 @@ namespace TagScanner.Controllers
 
 		#region State
 
-		private readonly TagFileModel Model;
+		private readonly Model Model;
 		private readonly Control View;
 		private readonly MruController MruController;
 		private readonly OpenFileDialog OpenFileDialog;
@@ -154,49 +156,42 @@ namespace TagScanner.Controllers
 		private bool LoadFromFile(string filePath)
 		{
 			var result = false;
-			try
+			using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 			{
-				var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 				result = LoadFromStream(stream);
 				if (result)
 				{
 					FilePath = filePath;
 					MruController.AddItem(filePath);
 				}
-				stream.Close();
 			}
-			catch { }
 			return result;
 		}
 
 		private bool LoadFromStream(Stream stream)
 		{
-			return UseStream(() => Model.Files = (List<TagFile>)new BinaryFormatter().Deserialize(stream));
+			return UseStream(() => Model.Tracks = (List<Track>)new BinaryFormatter().Deserialize(stream));
 		}
 
 		private bool SaveToFile(string filePath)
 		{
 			var result = false;
-			try
+			using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
 			{
-				using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+				result = SaveToStream(stream);
+				if (result)
 				{
-					result = SaveToStream(stream);
-					if (result)
-					{
-						stream.Flush();
-						FilePath = filePath;
-						MruController.AddItem(filePath);
-					}
+					stream.Flush();
+					FilePath = filePath;
+					MruController.AddItem(filePath);
 				}
 			}
-			catch { }
 			return result;
 		}
 
 		private bool SaveToStream(Stream stream)
 		{
-			return UseStream(() => new BinaryFormatter().Serialize(stream, Model.Files));
+			return UseStream(() => new BinaryFormatter().Serialize(stream, Model.Tracks));
 		}
 
 		private bool UseStream(Action action)
@@ -209,8 +204,14 @@ namespace TagScanner.Controllers
 				action();
 				Model.Modified = false;
 			}
-			catch
+			catch (Exception x)
 			{
+				MessageBox.Show(
+					View,
+					x.Message,
+					x.GetType().Name,
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
 				result = false;
 			}
 			finally

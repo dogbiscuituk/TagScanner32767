@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Windows.Forms;
-using TagScanner.Model;
+using TagScanner.Models;
 
 namespace TagScanner.Controllers
 {
 	public class StatusController
 	{
-		public StatusController(TagFileModel model, StatusStrip statusStrip)
+		public StatusController(Model model, StatusStrip statusStrip)
 		{
 			Model = model;
 			StatusBar = statusStrip.Items;
 		}
 
-		private TagFileModel Model;
+		private Model Model;
         private ToolStripItemCollection StatusBar;
 
 		public IProgress<ProgressEventArgs> NewProgress()
@@ -32,7 +32,6 @@ namespace TagScanner.Controllers
 						progressBar.Value = e.Index;
 						if (e.Success)
 							Model.Modified = true;
-						System.Diagnostics.Debug.WriteLine("{0}/{1} {2}", e.Index, e.Count, e.Path);
 					}
 					else
 					{

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TagScanner.Model;
+using TagScanner.Models;
 
 namespace TagScanner.Controllers
 {
@@ -10,7 +10,7 @@ namespace TagScanner.Controllers
 	{
 		#region Lifetime Management
 
-		public MediaController(TagFileModel model, StatusController statusController, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
+		public MediaController(Model model, StatusController statusController, ToolStripDropDownItem recentMenu, EventHandler onItemClick)
 		{
 			Model = model;
 			StatusController = statusController;
@@ -67,7 +67,7 @@ namespace TagScanner.Controllers
 
 		#region State
 
-		private readonly TagFileModel Model;
+		private readonly Model Model;
 		private readonly MruController MruController;
 		private readonly StatusController StatusController;
 		private readonly OpenFileDialog OpenFileDialog;

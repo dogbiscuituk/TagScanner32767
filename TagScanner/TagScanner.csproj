@@ -72,41 +72,75 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\FilterEditController.cs" />
+    <Compile Include="Controllers\SimpleFilterEditController.cs" />
+    <Compile Include="Models\CompoundCondition.cs" />
+    <Compile Include="Models\SimpleCondition.cs" />
+    <Compile Include="Models\Operator.cs" />
+    <Compile Include="Controllers\SelectController.cs" />
     <Compile Include="Controllers\CursorController.cs" />
-    <Compile Include="Controllers\GridViewController.cs" />
-    <Compile Include="Controllers\GridViewControllerWPF.cs" />
-    <Compile Include="Controllers\IGridViewController.cs" />
+    <Compile Include="Controllers\FilterController.cs" />
+    <Compile Include="Controllers\GridController.cs" />
+    <Compile Include="Controllers\GridControllerWPF.cs" />
+    <Compile Include="Controllers\LogicalConverter.cs" />
     <Compile Include="Controllers\MediaController.cs" />
+    <Compile Include="Controllers\OptionsDialogController.cs" />
     <Compile Include="Controllers\PersistenceController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
-    <Compile Include="Model\TagFileReader.cs" />
-    <Compile Include="Controllers\GridViewControllerWF.cs" />
-    <Compile Include="Model\ITagFile.cs" />
+    <Compile Include="Models\Logical.cs" />
+    <Compile Include="Models\Reader.cs" />
+    <Compile Include="Controllers\GridControllerWF.cs" />
+    <Compile Include="Models\ITrack.cs" />
     <Compile Include="StringUtilities.cs" />
-    <Compile Include="Views\GridContainer.xaml.cs">
-      <DependentUpon>GridContainer.xaml</DependentUpon>
+    <Compile Include="Views\ColumnChooser.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\MainForm.cs">
+    <Compile Include="Views\ColumnChooser.Designer.cs">
+      <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\CompoundFilterEditController.cs" />
+    <Compile Include="Views\FilterEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\FilterEditor.Designer.cs">
+      <DependentUpon>FilterEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridElement.xaml.cs">
+      <DependentUpon>GridElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Views\GridForm.Designer.cs">
+      <DependentUpon>GridForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\MruController.cs" />
-    <Compile Include="Model\Picture.cs" />
+    <Compile Include="Models\Picture.cs" />
     <Compile Include="Controllers\PictureController.cs" />
-    <Compile Include="Model\ProgressEventArgs.cs" />
-    <Compile Include="Model\Order.cs" />
-    <Compile Include="Model\OrderByExtensions.cs" />
+    <Compile Include="Models\ProgressEventArgs.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\TagFile.cs" />
-    <Compile Include="Model\TagFileExtensions.cs" />
-    <Compile Include="Model\TagFileModel.cs" />
-    <Compile Include="Model\TagFileSelection.cs" />
-    <Compile Include="Views\ViewTechnology.cs" />
-    <EmbeddedResource Include="Views\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Models\Track.cs" />
+    <Compile Include="Models\TrackExtensions.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Selection.cs" />
+    <Compile Include="Views\GridType.cs" />
+    <Compile Include="Views\OptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\OptionsDialog.Designer.cs">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Views\ColumnChooser.resx">
+      <DependentUpon>ColumnChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FilterEditor.resx">
+      <DependentUpon>FilterEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\GridForm.resx">
+      <DependentUpon>GridForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -116,9 +150,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\OptionsDialog.resx">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\TagFile.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -165,7 +202,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\GridContainer.xaml">
+    <Page Include="Views\GridElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
