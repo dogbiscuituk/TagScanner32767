@@ -15,6 +15,7 @@ namespace TagScanner.Controllers
 			GridController = gridController;
 			OptionsDialog = new OptionsDialog();
 			OptionsDialog.btnApply.Click += ApplyButton_Click;
+			OptionsDialog.FormClosing += OptionsDialog_FormClosing;
 			ColumnsController = new SelectController(OptionsDialog.ColumnsPage, Options.EnableAddAll);
 			FiltersController = new FilterController(OptionsDialog.FiltersPage);
 			GroupsController = new SelectController(OptionsDialog.GroupsPage);
@@ -23,6 +24,12 @@ namespace TagScanner.Controllers
 			// Disable the option to quickly add all available fields to the Group By clause.
 			// This is not realistic and has a severe performance penalty if done accidentally.
 			GroupsController.CanAddAll = false;
+		}
+
+		private void OptionsDialog_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			e.Cancel = true;
+			OptionsDialog.Visible = false;
 		}
 
 		#endregion
@@ -48,7 +55,7 @@ namespace TagScanner.Controllers
 			GridController.Filter = FiltersController.Predicate;
 			GridController.VisibleColumnNames = ColumnsController.ChosenColumnNames;
 			//GridController.Orders = OrderByColumnsController.ChosenOrders;
-            GridController.Groups = GroupsController.ChosenColumnNames;
+			GridController.Groups = GroupsController.ChosenColumnNames;
 			OptionsApply();
 		}
 
@@ -59,15 +66,15 @@ namespace TagScanner.Controllers
 
 		public void Execute(IWin32Window owner, int page)
 		{
-			Setup(true);
-            OptionsDialog.TabControl.SelectedIndex = page;
+			Setup(modal: true);
+			OptionsDialog.TabControl.SelectedIndex = page;
 			if (OptionsDialog.ShowDialog(owner) == DialogResult.OK)
 				Apply();
 		}
 
 		public void Show(IWin32Window owner, int page)
 		{
-			Setup(false);
+			Setup(modal: false);
 			OptionsDialog.TabControl.SelectedIndex = page;
 			OptionsDialog.Show(owner);
 		}

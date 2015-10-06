@@ -72,24 +72,25 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ValueConverters\FileSizeConverter.cs" />
     <Compile Include="Controllers\FilterEditController.cs" />
     <Compile Include="Controllers\SimpleFilterEditController.cs" />
+    <Compile Include="ValueConverters\TimeSpanConverter.cs" />
     <Compile Include="Models\CompoundCondition.cs" />
+    <Compile Include="Models\GroupSummary.cs" />
     <Compile Include="Models\SimpleCondition.cs" />
     <Compile Include="Models\Operator.cs" />
     <Compile Include="Controllers\SelectController.cs" />
     <Compile Include="Controllers\CursorController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\GridController.cs" />
-    <Compile Include="Controllers\GridControllerWPF.cs" />
-    <Compile Include="Controllers\LogicalConverter.cs" />
+    <Compile Include="ValueConverters\LogicalConverter.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\OptionsDialogController.cs" />
     <Compile Include="Controllers\PersistenceController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
-    <Compile Include="Controllers\GridControllerWF.cs" />
     <Compile Include="Models\ITrack.cs" />
     <Compile Include="StringUtilities.cs" />
     <Compile Include="Views\ColumnChooser.cs">
@@ -126,7 +127,6 @@
     <Compile Include="Models\TrackExtensions.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />
-    <Compile Include="Views\GridType.cs" />
     <Compile Include="Views\OptionsDialog.cs">
       <SubType>Form</SubType>
     </Compile>

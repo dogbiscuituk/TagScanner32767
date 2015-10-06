@@ -12,77 +12,17 @@ namespace TagScanner.Views
 		public GridForm()
 		{
 			InitializeComponent();
-			Model = new Models.Model();
+			Model = new Model();
 			Model.ModifiedChanged += Model_ModifiedChanged;
-			ViewTechnology = GridType.WPF;
+			GridController = new GridController(Model, GridElementHost);
+			GridController.SelectionChanged += GridViewController_SelectionChanged;
 			new PictureController(PictureBox, PropertyGrid);
 			var statusController = new StatusController(Model, StatusBar);
 			PersistenceController = new PersistenceController(Model, this, FileReopen, FileReopenItem_Click);
 			PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
 			MediaController = new MediaController(Model, statusController, AddRecentFolders, AddRecentFoldersItem_Click);
 			Model_ModifiedChanged(Model, EventArgs.Empty);
-			GridViewController.ViewByArtist();
-		}
-
-		#endregion
-
-		#region View Technology
-
-		private GridType _viewTechnology;
-        private GridType ViewTechnology
-		{
-			get
-			{
-				return _viewTechnology;
-			}
-			set
-			{
-				if (ViewTechnology != value)
-				{
-					_viewTechnology = value;
-                    DataGrid.Visible = false;
-					GridElementHost.Visible = false;
-					GridViewController = null;
-					Control control = null;
-					switch (ViewTechnology)
-					{
-						case GridType.WinForms:
-							GridViewController = new GridControllerWF(Model, DataGrid);
-							control = DataGrid;
-							break;
-						case GridType.WPF:
-							GridViewController = new GridControllerWPF(Model, GridElementHost);
-							control = GridElementHost;
-							break;
-					}
-					if (control != null)
-					{
-						control.Dock = DockStyle.Fill;
-						control.Visible = true;
-					}
-				}
-			}
-		}
-
-		private GridController _gridViewController;
-		private GridController GridViewController
-		{
-			get
-			{
-				return _gridViewController;
-			}
-			set
-			{
-				if (GridViewController != null)
-				{
-					GridViewController.SelectionChanged -= GridViewController_SelectionChanged;
-				}
-				_gridViewController = value;
-				if (GridViewController != null)
-				{
-					GridViewController.SelectionChanged += GridViewController_SelectionChanged;
-				}
-			}
+			GridController.ViewByArtist();
 		}
 
 		#endregion
@@ -90,7 +30,8 @@ namespace TagScanner.Views
 		#region Fields
 
 		private readonly Model Model;
-		private readonly MediaController MediaController;
+		private readonly GridController GridController;
+        private readonly MediaController MediaController;
 		private readonly PersistenceController PersistenceController;
 
 		#endregion
@@ -134,12 +75,12 @@ namespace TagScanner.Views
 
 		private void EditSelectAll_Click(object sender, EventArgs e)
 		{
-			GridViewController.SelectAll();
+			GridController.SelectAll();
 		}
 
 		private void EditInvertSelection_Click(object sender, EventArgs e)
 		{
-			GridViewController.InvertSelection();
+			GridController.InvertSelection();
 		}
 
 		private void AddMedia_Click(object sender, EventArgs e)
@@ -157,39 +98,29 @@ namespace TagScanner.Views
 			MediaController.Reopen((ToolStripItem)sender);
 		}
 
-		private void winFormsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ViewTechnology = GridType.WinForms;
-		}
-
-		private void wPFToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ViewTechnology = GridType.WPF;
-		}
-
 		private void ViewByArtist_Click(object sender, EventArgs e)
 		{
-			GridViewController.ViewByArtist();
+			GridController.ViewByArtist();
 		}
 
 		private void ViewByGenre_Click(object sender, EventArgs e)
 		{
-			GridViewController.ViewByGenre();
+			GridController.ViewByGenre();
 		}
 
 		private void ViewByYear_Click(object sender, EventArgs e)
 		{
-			GridViewController.ViewByYear();
+			GridController.ViewByYear();
 		}
 
 		private void ViewByAlbumTitle_Click(object sender, EventArgs e)
 		{
-			GridViewController.ViewByAlbumTitle();
+			GridController.ViewByAlbumTitle();
 		}
 
 		private void ViewBySongTitle_Click(object sender, EventArgs e)
 		{
-			GridViewController.ViewBySongTitle();
+			GridController.ViewBySongTitle();
 		}
 
 		private void ViewOptions_Click(object sender, EventArgs e)
@@ -250,7 +181,7 @@ namespace TagScanner.Views
 
 		private void GridViewController_SelectionChanged(object sender, EventArgs e)
 		{
-			PropertyGrid.SelectedObject = GridViewController.Selection;
+			PropertyGrid.SelectedObject = GridController.Selection;
 		}
 
 		private void PersistenceController_FilePathChanged(object sender, EventArgs e)
@@ -272,7 +203,7 @@ namespace TagScanner.Views
 			{
 				return
 					_optionsDialogController
-					?? (_optionsDialogController = new OptionsDialogController(GridViewController));
+					?? (_optionsDialogController = new OptionsDialogController(GridController));
 			}
 		}
 	}

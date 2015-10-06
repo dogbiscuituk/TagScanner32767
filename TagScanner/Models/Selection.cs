@@ -16,12 +16,51 @@ namespace TagScanner
             Files = files;
         }
 
-        #endregion
+		#endregion
 
 		#region Properties
 
-		[Browsable(false)]
-        public IEnumerable<ITrack> Files { get; private set; }
+		public readonly IEnumerable<ITrack> Files;
+
+		[Category("Statistics")]
+		[Description("The total number of tracks in the current selection.")]
+		public int TotalTracks
+		{
+			get
+			{
+				return Files.Count();
+			}
+		}
+
+		[Category("Statistics")]
+		[Description("The number of unique album titles in the current selection.")]
+		public int UniqueAlbums
+		{
+			get
+			{
+				return Files.Select(f => f.Album).Distinct().Count();
+			}
+		}
+
+		[Category("Statistics")]
+		[Description("The number of unique artists in the current selection.")]
+		public int UniqueArtists
+		{
+			get
+			{
+				return Files.Select(f => f.JoinedPerformers).Distinct().Count();
+			}
+		}
+
+		[Category("Statistics")]
+		[Description("The number of unique genres in the current selection.")]
+		public int UniqueGenres
+		{
+			get
+			{
+				return Files.SelectMany(f => f.Genres).Distinct().Count();
+			}
+		}
 
 		#endregion
 

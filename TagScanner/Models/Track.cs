@@ -511,16 +511,16 @@ namespace TagScanner.Models
 			set { SetValue(p => p.TrackCount = (uint)value); }
 		}
 
-		private int _trackNo;
+		private int _trackNumber;
 		public int TrackNumber
 		{
-			get { return _trackNo; }
+			get { return _trackNumber; }
 			set { SetValue(p => p.Track = (uint)value); }
 		}
 
 		public string TrackOf
 		{
-			get { return IndexOfCount(_trackNo, _trackCount); }
+			get { return IndexOfCount(_trackNumber, _trackCount); }
 		}
 
 		private int _videoHeight;
@@ -688,7 +688,7 @@ namespace TagScanner.Models
 			_pictures = tag.Pictures.Select(q => new Picture(FilePath, pictureIndex++, q)).ToArray();
 			_title = tag.Title;
 			_titleSort = tag.TitleSort;
-			_trackNo = (int)tag.Track;
+			_trackNumber = (int)tag.Track;
 			_trackCount = (int)tag.TrackCount;
 			_year = (int)tag.Year;
 		}

@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Forms.Integration;
 using TagScanner.Models;
+using TagScanner.ValueConverters;
+using TagScanner.Views;
 
 namespace TagScanner.Controllers
 {
-	public abstract class GridController
+	public class GridController
 	{
 		#region Lifetime Management
 
-		public GridController(Model model, Component view)
+		public GridController(Model model, ElementHost view)
 		{
 			Model = model;
 			View = view;
@@ -52,8 +58,8 @@ namespace TagScanner.Controllers
 
 		#region View
 
-		private Component _view;
-		protected Component View
+		private ElementHost _view;
+		private ElementHost View
 		{
 			get
 			{
@@ -72,25 +78,89 @@ namespace TagScanner.Controllers
 			}
 		}
 
-		protected abstract void DisconnectView();
-		protected abstract void ReconnectView();
+		private DataGrid Grid { get { return ((GridElement)View.Child).DataGrid; } }
+
+		private void DisconnectView()
+		{
+			Grid.SelectionChanged -= Grid_SelectionChanged;
+		}
 
 		private void InvokeRefreshDataSource()
 		{
-			var syncInvoke = (ISynchronizeInvoke)View;
-			if (syncInvoke.InvokeRequired)
-				syncInvoke.Invoke(new Action(RefreshDataSource), null);
+			if (View.InvokeRequired)
+				View.Invoke(new Action(RefreshDataSource), null);
 			else
 				RefreshDataSource();
-        }
+		}
 
-		protected abstract void RefreshDataSource();
+		private void ReconnectView()
+		{
+			if (View.Child == null)
+			{
+				View.Child = new GridElement();
+				Grid.Columns.Clear();
+				foreach (var column in GetColumns())
+					Grid.Columns.Add(column);
+			}
+			Grid.SelectionChanged += Grid_SelectionChanged;
+		}
+
+		private void RefreshDataSource()
+		{
+			if (View.InvokeRequired)
+				View.Invoke(new System.Windows.Forms.MethodInvoker(RefreshDataSource));
+			else
+			{
+				var tracks = new ListCollectionView(Model.Tracks);
+				//tracks.SortDescriptions.Add(new SortDescription("JoinedPerformers", ListSortDirection.Ascending));
+				//tracks.SortDescriptions.Add(new SortDescription("Year", ListSortDirection.Ascending));
+				//tracks.SortDescriptions.Add(new SortDescription("Album", ListSortDirection.Ascending));
+				Grid.ItemsSource = tracks;
+				InitGroups();
+			}
+		}
 
 		#endregion
 
 		#region Columns
 
-		protected object GetColumn(string propertyTypeName)
+		private IEnumerable<string> _visibleColumnNames = new[] { "FilePath" };
+		public IEnumerable<string> VisibleColumnNames
+		{
+			get
+			{
+				return _visibleColumnNames;
+			}
+			set
+			{
+				if (VisibleColumnNames.SequenceEqual(value))
+					return;
+				_visibleColumnNames = value;
+				InitVisibleColumns();
+			}
+		}
+
+		private void InitVisibleColumns()
+		{
+			foreach (var column in Grid.Columns)
+				column.Visibility = Visibility.Collapsed;
+			var displayIndex = 0;
+			foreach (var columnName in VisibleColumnNames)
+			{
+				var column = Grid.Columns.Single(c => (string)c.Header == columnName);
+				column.DisplayIndex = displayIndex++;
+				column.Visibility = Visibility.Visible;
+			}
+		}
+
+		private static DataGridBoundColumn GetCheckBoxColumn()
+		{
+			var column = new DataGridCheckBoxColumn();
+			column.Width = 80;
+			return column;
+		}
+
+		private static DataGridBoundColumn GetColumn(string propertyTypeName)
 		{
 			switch (propertyTypeName)
 			{
@@ -106,33 +176,96 @@ namespace TagScanner.Controllers
 			return null;
 		}
 
-		protected abstract object GetCheckBoxColumn();
-		protected abstract object GetTextBoxColumn(StringAlignment alignment);
+		private static DataGridBoundColumn GetColumn(PropertyInfo propertyInfo)
+		{
+			var propertyTypeName = propertyInfo.PropertyType.Name;
+			var column = GetColumn(propertyTypeName);
+			if (column != null)
+			{
+				var propertyName = propertyInfo.Name;
+				var binding = new Binding(propertyName)
+				{
+					Mode = propertyInfo.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay,
+					Converter = GetConverter(propertyInfo)
+				};
+				column.Binding = binding;
+				column.CellStyle = GetColumnStyle(propertyInfo);
+				column.Header = propertyName;
+			}
+			return column;
+		}
 
-		private IEnumerable<string> _visibleColumnNames = new[] { "FilePath" };
-		public IEnumerable<string> VisibleColumnNames
+		private static IEnumerable<DataGridBoundColumn> GetColumns()
+		{
+			return SimpleCondition.SortablePropertyInfos.Select(GetColumn);
+		}
+
+		private static Style GetColumnStyle(PropertyInfo propertyInfo)
+		{
+			switch (propertyInfo.PropertyType.Name)
+			{
+				case "Int32":
+				case "Int64":
+				case "TimeSpan":
+					return RightAlignStyle;
+			}
+			switch (propertyInfo.Name)
+			{
+				case "DiscOf":
+				case "DiscTrack":
+				case "TrackOf":
+					return RightAlignStyle;
+			}
+			return null;
+		}
+
+		private static IValueConverter GetConverter(PropertyInfo propertyInfo)
+		{
+			switch (propertyInfo.PropertyType.Name)
+			{
+				case "Logical":
+					return new LogicalConverter();
+				case "TimeSpan":
+					return new TimeSpanConverter();
+			}
+			switch (propertyInfo.Name)
+			{
+				case "FileSize":
+					return new FileSizeConverter();
+			}
+			return null;
+		}
+
+		private static DataGridBoundColumn GetTextBoxColumn(StringAlignment alignment)
+		{
+			var column = new DataGridTextColumn();
+			column.Width = alignment == StringAlignment.Near ? 160 : 80;
+			return column;
+		}
+
+		private static Style _rightAlignStyle;
+		private static Style RightAlignStyle
 		{
 			get
 			{
-				return _visibleColumnNames;
+				if (_rightAlignStyle == null)
+				{
+					_rightAlignStyle = new Style(typeof(DataGridCell));
+					_rightAlignStyle.Setters.Add(new Setter
+					{
+						Property = FrameworkElement.HorizontalAlignmentProperty,
+						Value = HorizontalAlignment.Right
+					});
+				}
+				return _rightAlignStyle;
 			}
-			set
-			{
-				if (VisibleColumnNames.SequenceEqual(value))
-					return;
-				_visibleColumnNames = value;
-				InitVisibleColumns();
-            }
 		}
-
-		protected abstract void InitVisibleColumns();
 
 		#endregion
 
 		#region Filter
 
 		private Predicate<object> _filter = p => true;
-
 		public Predicate<object> Filter
 		{
 			get
@@ -146,7 +279,11 @@ namespace TagScanner.Controllers
 			}
 		}
 
-		protected abstract void InitFilter();
+		private void InitFilter()
+		{
+			var listCollectionView = (ListCollectionView)Grid.ItemsSource;
+			listCollectionView.Filter = Filter;
+        }
 
 		#endregion
 
@@ -168,14 +305,18 @@ namespace TagScanner.Controllers
 			}
 		}
 
-		protected abstract void InitGroups();
+		private void InitGroups()
+		{
+			var listCollectionView = (ListCollectionView)Grid.ItemsSource;
+            var groupDescriptions = listCollectionView.GroupDescriptions;
+			groupDescriptions.Clear();
+			foreach (var group in Groups)
+                groupDescriptions.Add(new PropertyGroupDescription(group));
+		}
 
 		#endregion
 
 		#region Selection
-
-		public abstract void SelectAll();
-		public abstract void InvertSelection();
 
 		private Selection _selection;
 		public Selection Selection
@@ -187,19 +328,17 @@ namespace TagScanner.Controllers
 
 		private int UpdatingSelectionCount { get; set; }
 
-		protected abstract Selection GetSelection();
-
-		protected void InvalidateSelection()
+		private void InvalidateSelection()
 		{
 			_selection = null;
 		}
 
-		protected void BeginUpdateSelection()
+		private void BeginUpdateSelection()
 		{
 			UpdatingSelectionCount++;
 		}
 
-		protected void EndUpdateSelection()
+		private void EndUpdateSelection()
 		{
 			UpdatingSelectionCount--;
 			OnSelectionChanged();
@@ -214,6 +353,25 @@ namespace TagScanner.Controllers
 				if (selectionChanged != null)
 					selectionChanged(this, EventArgs.Empty);
 			}
+		}
+
+		public void SelectAll()
+		{
+			Grid.SelectAll();
+		}
+
+		public void InvertSelection()
+		{
+        }
+
+		private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			OnSelectionChanged();
+		}
+
+		private Selection GetSelection()
+		{
+            return new Selection(Grid.SelectedItems.Cast<ITrack>());
 		}
 
 		#endregion

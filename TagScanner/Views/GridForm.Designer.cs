@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
 			this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -37,11 +36,16 @@
 			this.PopupFilters = new System.Windows.Forms.ToolStripMenuItem();
 			this.PopupGroups = new System.Windows.Forms.ToolStripMenuItem();
 			this.PopupSorting = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.PopupOptions = new System.Windows.Forms.ToolStripMenuItem();
-			this.DataGrid = new System.Windows.Forms.DataGridView();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.PictureBox = new System.Windows.Forms.PictureBox();
+			this.TabControl = new System.Windows.Forms.TabControl();
+			this.tabProperties = new System.Windows.Forms.TabPage();
 			this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
+			this.tabColumns = new System.Windows.Forms.TabPage();
+			this.tabFilters = new System.Windows.Forms.TabPage();
+			this.tabGroups = new System.Windows.Forms.TabPage();
 			this.MainMenu = new System.Windows.Forms.MenuStrip();
 			this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,28 +75,24 @@
 			this.ViewLevel = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.ViewOptions = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-			this.technologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.winFormsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.wPFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
 			this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
 			this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.StatusBar = new System.Windows.Forms.StatusStrip();
 			this.ModifiedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.PopupMenu.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
 			this.splitContainer2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
+			this.TabControl.SuspendLayout();
+			this.tabProperties.SuspendLayout();
 			this.MainMenu.SuspendLayout();
 			this.StatusBar.SuspendLayout();
 			this.SuspendLayout();
@@ -106,7 +106,6 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.GridElementHost);
-			this.splitContainer1.Panel1.Controls.Add(this.DataGrid);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -118,9 +117,11 @@
 			// GridElementHost
 			// 
 			this.GridElementHost.ContextMenuStrip = this.PopupMenu;
-			this.GridElementHost.Location = new System.Drawing.Point(23, 261);
+			this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.GridElementHost.Location = new System.Drawing.Point(0, 0);
+			this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
 			this.GridElementHost.Name = "GridElementHost";
-			this.GridElementHost.Size = new System.Drawing.Size(482, 188);
+			this.GridElementHost.Size = new System.Drawing.Size(547, 516);
 			this.GridElementHost.TabIndex = 2;
 			this.GridElementHost.Text = "GridContainerHost";
 			this.GridElementHost.Child = null;
@@ -165,40 +166,17 @@
 			this.PopupSorting.Text = "&Sorting...";
 			this.PopupSorting.Click += new System.EventHandler(this.PopupSorting_Click);
 			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+			this.toolStripMenuItem7.Size = new System.Drawing.Size(128, 6);
+			// 
 			// PopupOptions
 			// 
 			this.PopupOptions.Name = "PopupOptions";
 			this.PopupOptions.Size = new System.Drawing.Size(131, 22);
 			this.PopupOptions.Text = "&Options...";
 			this.PopupOptions.Click += new System.EventHandler(this.PopupOptions_Click);
-			// 
-			// DataGrid
-			// 
-			this.DataGrid.AllowUserToAddRows = false;
-			this.DataGrid.AllowUserToDeleteRows = false;
-			this.DataGrid.AllowUserToOrderColumns = true;
-			this.DataGrid.AllowUserToResizeRows = false;
-			this.DataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.DataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			this.DataGrid.ContextMenuStrip = this.PopupMenu;
-			this.DataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-			this.DataGrid.Location = new System.Drawing.Point(23, 25);
-			this.DataGrid.Name = "DataGrid";
-			this.DataGrid.ReadOnly = true;
-			this.DataGrid.RowHeadersVisible = false;
-			this.DataGrid.RowTemplate.Height = 18;
-			this.DataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.DataGrid.ShowEditingIcon = false;
-			this.DataGrid.Size = new System.Drawing.Size(482, 211);
-			this.DataGrid.TabIndex = 1;
 			// 
 			// splitContainer2
 			// 
@@ -213,7 +191,7 @@
 			// 
 			// splitContainer2.Panel2
 			// 
-			this.splitContainer2.Panel2.Controls.Add(this.PropertyGrid);
+			this.splitContainer2.Panel2.Controls.Add(this.TabControl);
 			this.splitContainer2.Size = new System.Drawing.Size(233, 516);
 			this.splitContainer2.SplitterDistance = 135;
 			this.splitContainer2.TabIndex = 1;
@@ -227,14 +205,72 @@
 			this.PictureBox.TabIndex = 0;
 			this.PictureBox.TabStop = false;
 			// 
+			// TabControl
+			// 
+			this.TabControl.Controls.Add(this.tabProperties);
+			this.TabControl.Controls.Add(this.tabColumns);
+			this.TabControl.Controls.Add(this.tabFilters);
+			this.TabControl.Controls.Add(this.tabGroups);
+			this.TabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TabControl.Location = new System.Drawing.Point(0, 0);
+			this.TabControl.Margin = new System.Windows.Forms.Padding(0);
+			this.TabControl.Multiline = true;
+			this.TabControl.Name = "TabControl";
+			this.TabControl.Padding = new System.Drawing.Point(0, 0);
+			this.TabControl.SelectedIndex = 0;
+			this.TabControl.Size = new System.Drawing.Size(233, 377);
+			this.TabControl.TabIndex = 1;
+			// 
+			// tabProperties
+			// 
+			this.tabProperties.BackColor = System.Drawing.SystemColors.Control;
+			this.tabProperties.Controls.Add(this.PropertyGrid);
+			this.tabProperties.Location = new System.Drawing.Point(4, 22);
+			this.tabProperties.Margin = new System.Windows.Forms.Padding(0);
+			this.tabProperties.Name = "tabProperties";
+			this.tabProperties.Size = new System.Drawing.Size(225, 351);
+			this.tabProperties.TabIndex = 0;
+			this.tabProperties.Text = "Properties";
+			// 
 			// PropertyGrid
 			// 
 			this.PropertyGrid.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
 			this.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.PropertyGrid.Location = new System.Drawing.Point(0, 0);
+			this.PropertyGrid.Margin = new System.Windows.Forms.Padding(0);
 			this.PropertyGrid.Name = "PropertyGrid";
-			this.PropertyGrid.Size = new System.Drawing.Size(233, 377);
+			this.PropertyGrid.Size = new System.Drawing.Size(225, 351);
 			this.PropertyGrid.TabIndex = 0;
+			// 
+			// tabColumns
+			// 
+			this.tabColumns.BackColor = System.Drawing.SystemColors.Control;
+			this.tabColumns.Location = new System.Drawing.Point(4, 22);
+			this.tabColumns.Margin = new System.Windows.Forms.Padding(0);
+			this.tabColumns.Name = "tabColumns";
+			this.tabColumns.Size = new System.Drawing.Size(225, 351);
+			this.tabColumns.TabIndex = 1;
+			this.tabColumns.Text = "Columns";
+			// 
+			// tabFilters
+			// 
+			this.tabFilters.BackColor = System.Drawing.SystemColors.Control;
+			this.tabFilters.Location = new System.Drawing.Point(4, 22);
+			this.tabFilters.Margin = new System.Windows.Forms.Padding(0);
+			this.tabFilters.Name = "tabFilters";
+			this.tabFilters.Size = new System.Drawing.Size(225, 351);
+			this.tabFilters.TabIndex = 2;
+			this.tabFilters.Text = "Filters";
+			// 
+			// tabGroups
+			// 
+			this.tabGroups.BackColor = System.Drawing.SystemColors.Control;
+			this.tabGroups.Location = new System.Drawing.Point(4, 22);
+			this.tabGroups.Margin = new System.Windows.Forms.Padding(0);
+			this.tabGroups.Name = "tabGroups";
+			this.tabGroups.Size = new System.Drawing.Size(225, 351);
+			this.tabGroups.TabIndex = 3;
+			this.tabGroups.Text = "Groups";
 			// 
 			// MainMenu
 			// 
@@ -387,9 +423,7 @@
             this.ViewPreset,
             this.ViewLevel,
             this.toolStripMenuItem2,
-            this.ViewOptions,
-            this.toolStripMenuItem6,
-            this.technologyToolStripMenuItem});
+            this.ViewOptions});
 			this.ViewMenu.Name = "ViewMenu";
 			this.ViewMenu.Size = new System.Drawing.Size(44, 20);
 			this.ViewMenu.Text = "&View";
@@ -404,7 +438,7 @@
             this.ViewByAlbumTitle,
             this.ViewBySongTitle});
 			this.ViewPreset.Name = "ViewPreset";
-			this.ViewPreset.Size = new System.Drawing.Size(136, 22);
+			this.ViewPreset.Size = new System.Drawing.Size(152, 22);
 			this.ViewPreset.Text = "&Preset";
 			// 
 			// ViewByArtist
@@ -450,48 +484,20 @@
 			// ViewLevel
 			// 
 			this.ViewLevel.Name = "ViewLevel";
-			this.ViewLevel.Size = new System.Drawing.Size(136, 22);
+			this.ViewLevel.Size = new System.Drawing.Size(152, 22);
 			this.ViewLevel.Text = "&Level";
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(133, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// ViewOptions
 			// 
 			this.ViewOptions.Name = "ViewOptions";
-			this.ViewOptions.Size = new System.Drawing.Size(136, 22);
+			this.ViewOptions.Size = new System.Drawing.Size(152, 22);
 			this.ViewOptions.Text = "&Options...";
 			this.ViewOptions.Click += new System.EventHandler(this.ViewOptions_Click);
-			// 
-			// toolStripMenuItem6
-			// 
-			this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-			this.toolStripMenuItem6.Size = new System.Drawing.Size(133, 6);
-			// 
-			// technologyToolStripMenuItem
-			// 
-			this.technologyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.winFormsToolStripMenuItem,
-            this.wPFToolStripMenuItem});
-			this.technologyToolStripMenuItem.Name = "technologyToolStripMenuItem";
-			this.technologyToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-			this.technologyToolStripMenuItem.Text = "&Technology";
-			// 
-			// winFormsToolStripMenuItem
-			// 
-			this.winFormsToolStripMenuItem.Name = "winFormsToolStripMenuItem";
-			this.winFormsToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-			this.winFormsToolStripMenuItem.Text = "&WinForms";
-			this.winFormsToolStripMenuItem.Click += new System.EventHandler(this.winFormsToolStripMenuItem_Click);
-			// 
-			// wPFToolStripMenuItem
-			// 
-			this.wPFToolStripMenuItem.Name = "wPFToolStripMenuItem";
-			this.wPFToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
-			this.wPFToolStripMenuItem.Text = "W&PF";
-			this.wPFToolStripMenuItem.Click += new System.EventHandler(this.wPFToolStripMenuItem_Click);
 			// 
 			// HelpMenu
 			// 
@@ -534,11 +540,6 @@
 			this.ModifiedLabel.Text = "Modified";
 			this.ModifiedLabel.Visible = false;
 			// 
-			// toolStripMenuItem7
-			// 
-			this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-			this.toolStripMenuItem7.Size = new System.Drawing.Size(128, 6);
-			// 
 			// GridForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -555,12 +556,13 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.PopupMenu.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.DataGrid)).EndInit();
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
 			this.splitContainer2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
+			this.TabControl.ResumeLayout(false);
+			this.tabProperties.ResumeLayout(false);
 			this.MainMenu.ResumeLayout(false);
 			this.MainMenu.PerformLayout();
 			this.StatusBar.ResumeLayout(false);
@@ -597,7 +599,6 @@
 		private System.Windows.Forms.ToolStripMenuItem HelpAbout;
 		private System.Windows.Forms.FolderBrowserDialog AddFolderDialog;
 		private System.Windows.Forms.OpenFileDialog AddFileDialog;
-        private System.Windows.Forms.DataGridView DataGrid;
 		private System.Windows.Forms.StatusStrip StatusBar;
 		private System.Windows.Forms.ToolStripMenuItem FileNew;
 		private System.Windows.Forms.ToolStripMenuItem FileOpen;
@@ -613,10 +614,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripStatusLabel ModifiedLabel;
 		private System.Windows.Forms.Integration.ElementHost GridElementHost;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-		private System.Windows.Forms.ToolStripMenuItem technologyToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem winFormsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem wPFToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip PopupMenu;
 		private System.Windows.Forms.ToolStripMenuItem PopupColumns;
 		private System.Windows.Forms.ToolStripMenuItem PopupGroups;
@@ -624,6 +621,11 @@
 		private System.Windows.Forms.ToolStripMenuItem PopupOptions;
 		private System.Windows.Forms.ToolStripMenuItem PopupFilters;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+		private System.Windows.Forms.TabControl TabControl;
+		private System.Windows.Forms.TabPage tabProperties;
+		private System.Windows.Forms.TabPage tabColumns;
+		private System.Windows.Forms.TabPage tabFilters;
+		private System.Windows.Forms.TabPage tabGroups;
 	}
 }
 
